@@ -1,4 +1,7 @@
 Release notes:
+2019-02-18 (v4.2.0)
+1.Add new feature of SWJ shopfloor Microsoft SQL 2017 Server Database to backup the test information and test log onto SQL server. 
+
 2018-12-26 (v4.1.0)
 1.Add new feature of SWJ shopfloor Access Database to backup the test information and test log onto server with mdb file.
 

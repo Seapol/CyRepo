@@ -5,11 +5,11 @@ using System.Text;
 
 namespace CyBLE_MTK_Application
 {
-    public enum DbError
+    public class AccessDB : MTKDB
     {
-        NoError,
-        ConnectionError,
-        ReadError,
-        WriteError
+        public AccessDB(LogManager logger):base(logger)
+        {
+
+        }
     }
 }

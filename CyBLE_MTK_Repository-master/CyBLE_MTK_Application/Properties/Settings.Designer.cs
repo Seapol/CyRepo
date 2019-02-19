@@ -12,7 +12,7 @@ namespace CyBLE_MTK_Application.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -505,305 +505,6 @@ namespace CyBLE_MTK_Application.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-  <string>Configure...</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection DUTProgrammerName {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerName"]));
-            }
-            set {
-                this["DUTProgrammerName"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-  <string>5.0V</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection DUTProgrammerVoltage {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerVoltage"]));
-            }
-            set {
-                this["DUTProgrammerVoltage"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string>Reset</string>
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection DUTProgrammerPM {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerPM"]));
-            }
-            set {
-                this["DUTProgrammerPM"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-  <string>0</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection DUTProgrammerConn {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerConn"]));
-            }
-            set {
-                this["DUTProgrammerConn"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string>1.6 MHz</string>
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection DUTProgrammerClock {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerClock"]));
-            }
-            set {
-                this["DUTProgrammerClock"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string>Program</string>
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection DUTProgrammerPA {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerPA"]));
-            }
-            set {
-                this["DUTProgrammerPA"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string>false</string>
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection DUTProgrammerVerify {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerVerify"]));
-            }
-            set {
-                this["DUTProgrammerVerify"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-  <string />
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection DUTProgrammerHexPath {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerHexPath"]));
-            }
-            set {
-                this["DUTProgrammerHexPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
         public int AnritsuScriptID {
             get {
@@ -811,66 +512,6 @@ namespace CyBLE_MTK_Application.Properties {
             }
             set {
                 this["AnritsuScriptID"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection AnritsuOutputPower {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["AnritsuOutputPower"]));
-            }
-            set {
-                this["AnritsuOutputPower"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-  <string>0.0</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection AnritsuTXPower {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["AnritsuTXPower"]));
-            }
-            set {
-                this["AnritsuTXPower"] = value;
             }
         }
         
@@ -1014,36 +655,6 @@ namespace CyBLE_MTK_Application.Properties {
             }
             set {
                 this["TestModeLongRun"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
-<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
-  <string>Com6</string>
-  <string>Com7</string>
-  <string>Com8</string>
-  <string>Com9</string>
-  <string>Com10</string>
-  <string>Com11</string>
-  <string>Com12</string>
-  <string>Com13</string>
-  <string>Com14</string>
-  <string>Com15</string>
-  <string>Com16</string>
-  <string>Com17</string>
-  <string>Com18</string>
-  <string>Com19</string>
-  <string>Com20</string>
-  <string>Com21</string>
-</ArrayOfString>")]
-        public global::System.Collections.Specialized.StringCollection DUTPredefinedSerialPorts {
-            get {
-                return ((global::System.Collections.Specialized.StringCollection)(this["DUTPredefinedSerialPorts"]));
-            }
-            set {
-                this["DUTPredefinedSerialPorts"] = value;
             }
         }
         
@@ -1465,6 +1076,407 @@ namespace CyBLE_MTK_Application.Properties {
             }
             set {
                 this["ShopfloorDataBaseFile"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+  <string>Configure...</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DUTProgrammerName {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerName"]));
+            }
+            set {
+                this["DUTProgrammerName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+  <string>5.0V</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DUTProgrammerVoltage {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerVoltage"]));
+            }
+            set {
+                this["DUTProgrammerVoltage"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string>Reset</string>
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DUTProgrammerPM {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerPM"]));
+            }
+            set {
+                this["DUTProgrammerPM"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+  <string>0</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DUTProgrammerConn {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerConn"]));
+            }
+            set {
+                this["DUTProgrammerConn"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string>1.6 MHz</string>
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DUTProgrammerClock {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerClock"]));
+            }
+            set {
+                this["DUTProgrammerClock"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string>Program</string>
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DUTProgrammerPA {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerPA"]));
+            }
+            set {
+                this["DUTProgrammerPA"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string>false</string>
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DUTProgrammerVerify {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerVerify"]));
+            }
+            set {
+                this["DUTProgrammerVerify"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+  <string />
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DUTProgrammerHexPath {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DUTProgrammerHexPath"]));
+            }
+            set {
+                this["DUTProgrammerHexPath"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection AnritsuOutputPower {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["AnritsuOutputPower"]));
+            }
+            set {
+                this["AnritsuOutputPower"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+  <string>0.0</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection AnritsuTXPower {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["AnritsuTXPower"]));
+            }
+            set {
+                this["AnritsuTXPower"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute(@"<?xml version=""1.0"" encoding=""utf-16""?>
+<ArrayOfString xmlns:xsi=""http://www.w3.org/2001/XMLSchema-instance"" xmlns:xsd=""http://www.w3.org/2001/XMLSchema"">
+  <string>Com6</string>
+  <string>Com7</string>
+  <string>Com8</string>
+  <string>Com9</string>
+  <string>Com10</string>
+  <string>Com11</string>
+  <string>Com12</string>
+  <string>Com13</string>
+  <string>Com14</string>
+  <string>Com15</string>
+  <string>Com16</string>
+  <string>Com17</string>
+  <string>Com18</string>
+  <string>Com19</string>
+  <string>Com20</string>
+  <string>Com21</string>
+</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection DUTPredefinedSerialPorts {
+            get {
+                return ((global::System.Collections.Specialized.StringCollection)(this["DUTPredefinedSerialPorts"]));
+            }
+            set {
+                this["DUTPredefinedSerialPorts"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("MTKTestInfo")]
+        public string SQLServerDatabaseTableName {
+            get {
+                return ((string)(this["SQLServerDatabaseTableName"]));
+            }
+            set {
+                this["SQLServerDatabaseTableName"] = value;
             }
         }
     }

@@ -81,10 +81,11 @@ namespace CyBLE_MTK_Application
             this.HostStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
-            this.DataBaseStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
             this.ApplicationStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.ApplicationStatus = new System.Windows.Forms.ToolStripStatusLabel();
+            this.DatabaseStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.DataBaseStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.MainSplitContainer = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
@@ -111,18 +112,6 @@ namespace CyBLE_MTK_Application
             this.TestRunStopButton = new System.Windows.Forms.Button();
             this.StopButton = new System.Windows.Forms.Button();
             this.label_appmode = new System.Windows.Forms.Label();
-            this.groupBox_supervisorControlPanel = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.PassCountLabel = new System.Windows.Forms.Label();
-            this.CycleTimePerCountLabel = new System.Windows.Forms.Label();
-            this.CycleTimeLabel = new System.Windows.Forms.Label();
-            this.PassRateLabel = new System.Windows.Forms.Label();
-            this.PassFailLabel = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.RunCountLabel = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.SnipLogBtn = new System.Windows.Forms.Button();
-            this.CleanLogBtn = new System.Windows.Forms.Button();
             this.LogGroupBox = new System.Windows.Forms.GroupBox();
             this.LogTextBox = new System.Windows.Forms.TextBox();
             this.MTKMenuStrip.SuspendLayout();
@@ -145,7 +134,6 @@ namespace CyBLE_MTK_Application
             this.tableLayoutPanel6.SuspendLayout();
             this.ResultGroupBox.SuspendLayout();
             this.tableLayoutPanel7.SuspendLayout();
-            this.groupBox_supervisorControlPanel.SuspendLayout();
             this.LogGroupBox.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -367,7 +355,7 @@ namespace CyBLE_MTK_Application
             this.manufacturingModeConfigToolStripMenuItem,
             this.startRobotServerToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
-            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(48, 20);
+            this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
             // 
             // uARTTerminalToolStripMenuItem
@@ -447,10 +435,11 @@ namespace CyBLE_MTK_Application
             this.HostStatus,
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel4,
-            this.DataBaseStatus,
             this.toolStripStatusLabel3,
             this.ApplicationStatusLabel,
-            this.ApplicationStatus});
+            this.ApplicationStatus,
+            this.DatabaseStatusLabel,
+            this.DataBaseStatus});
             this.MTKStatStrip.Location = new System.Drawing.Point(0, 610);
             this.MTKStatStrip.Name = "MTKStatStrip";
             this.MTKStatStrip.Size = new System.Drawing.Size(924, 22);
@@ -461,7 +450,7 @@ namespace CyBLE_MTK_Application
             // 
             this.ApplicationMode.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.ApplicationMode.Name = "ApplicationMode";
-            this.ApplicationMode.Size = new System.Drawing.Size(39, 17);
+            this.ApplicationMode.Size = new System.Drawing.Size(38, 17);
             this.ApplicationMode.Text = "Tester";
             // 
             // RobotLabel
@@ -506,13 +495,6 @@ namespace CyBLE_MTK_Application
             this.toolStripStatusLabel4.Size = new System.Drawing.Size(30, 17);
             this.toolStripStatusLabel4.Text = "DUT";
             // 
-            // DataBaseStatus
-            // 
-            this.DataBaseStatus.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
-            this.DataBaseStatus.Name = "DataBaseStatus";
-            this.DataBaseStatus.Size = new System.Drawing.Size(110, 17);
-            this.DataBaseStatus.Text = "Shopfloor Database";
-            // 
             // toolStripStatusLabel3
             // 
             this.toolStripStatusLabel3.BorderSides = ((System.Windows.Forms.ToolStripStatusLabelBorderSides)((((System.Windows.Forms.ToolStripStatusLabelBorderSides.Left | System.Windows.Forms.ToolStripStatusLabelBorderSides.Top) 
@@ -534,6 +516,19 @@ namespace CyBLE_MTK_Application
             this.ApplicationStatus.Name = "ApplicationStatus";
             this.ApplicationStatus.Size = new System.Drawing.Size(26, 17);
             this.ApplicationStatus.Text = "Idle";
+            // 
+            // DatabaseStatusLabel
+            // 
+            this.DatabaseStatusLabel.Name = "DatabaseStatusLabel";
+            this.DatabaseStatusLabel.Size = new System.Drawing.Size(60, 17);
+            this.DatabaseStatusLabel.Text = "DB Status:";
+            // 
+            // DataBaseStatus
+            // 
+            this.DataBaseStatus.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
+            this.DataBaseStatus.Name = "DataBaseStatus";
+            this.DataBaseStatus.Size = new System.Drawing.Size(28, 17);
+            this.DataBaseStatus.Text = "OFF";
             // 
             // tableLayoutPanel1
             // 
@@ -565,7 +560,6 @@ namespace CyBLE_MTK_Application
             // 
             // MainSplitContainer.Panel2
             // 
-            this.MainSplitContainer.Panel2.Controls.Add(this.groupBox_supervisorControlPanel);
             this.MainSplitContainer.Panel2.Controls.Add(this.LogGroupBox);
             this.MainSplitContainer.Size = new System.Drawing.Size(924, 586);
             this.MainSplitContainer.SplitterDistance = 346;
@@ -933,143 +927,6 @@ namespace CyBLE_MTK_Application
             this.label_appmode.Text = "Undefined";
             this.label_appmode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // groupBox_supervisorControlPanel
-            // 
-            this.groupBox_supervisorControlPanel.Controls.Add(this.label3);
-            this.groupBox_supervisorControlPanel.Controls.Add(this.PassCountLabel);
-            this.groupBox_supervisorControlPanel.Controls.Add(this.CycleTimePerCountLabel);
-            this.groupBox_supervisorControlPanel.Controls.Add(this.CycleTimeLabel);
-            this.groupBox_supervisorControlPanel.Controls.Add(this.PassRateLabel);
-            this.groupBox_supervisorControlPanel.Controls.Add(this.PassFailLabel);
-            this.groupBox_supervisorControlPanel.Controls.Add(this.label2);
-            this.groupBox_supervisorControlPanel.Controls.Add(this.RunCountLabel);
-            this.groupBox_supervisorControlPanel.Controls.Add(this.button1);
-            this.groupBox_supervisorControlPanel.Controls.Add(this.SnipLogBtn);
-            this.groupBox_supervisorControlPanel.Controls.Add(this.CleanLogBtn);
-            this.groupBox_supervisorControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.groupBox_supervisorControlPanel.Location = new System.Drawing.Point(554, 0);
-            this.groupBox_supervisorControlPanel.Margin = new System.Windows.Forms.Padding(2);
-            this.groupBox_supervisorControlPanel.Name = "groupBox_supervisorControlPanel";
-            this.groupBox_supervisorControlPanel.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox_supervisorControlPanel.Size = new System.Drawing.Size(370, 236);
-            this.groupBox_supervisorControlPanel.TabIndex = 24;
-            this.groupBox_supervisorControlPanel.TabStop = false;
-            this.groupBox_supervisorControlPanel.Text = "Supervisor Control Panel";
-            this.groupBox_supervisorControlPanel.Visible = false;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 136);
-            this.label3.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(59, 13);
-            this.label3.TabIndex = 13;
-            this.label3.Text = "Pass Rate:";
-            // 
-            // PassCountLabel
-            // 
-            this.PassCountLabel.AutoSize = true;
-            this.PassCountLabel.Location = new System.Drawing.Point(150, 110);
-            this.PassCountLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.PassCountLabel.Name = "PassCountLabel";
-            this.PassCountLabel.Size = new System.Drawing.Size(16, 13);
-            this.PassCountLabel.TabIndex = 12;
-            this.PassCountLabel.Text = "---";
-            // 
-            // CycleTimePerCountLabel
-            // 
-            this.CycleTimePerCountLabel.AutoSize = true;
-            this.CycleTimePerCountLabel.Location = new System.Drawing.Point(150, 162);
-            this.CycleTimePerCountLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.CycleTimePerCountLabel.Name = "CycleTimePerCountLabel";
-            this.CycleTimePerCountLabel.Size = new System.Drawing.Size(16, 13);
-            this.CycleTimePerCountLabel.TabIndex = 11;
-            this.CycleTimePerCountLabel.Text = "---";
-            // 
-            // CycleTimeLabel
-            // 
-            this.CycleTimeLabel.AutoSize = true;
-            this.CycleTimeLabel.Location = new System.Drawing.Point(6, 162);
-            this.CycleTimeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.CycleTimeLabel.Name = "CycleTimeLabel";
-            this.CycleTimeLabel.Size = new System.Drawing.Size(112, 13);
-            this.CycleTimeLabel.TabIndex = 10;
-            this.CycleTimeLabel.Text = "Cycle Time Per Count:";
-            // 
-            // PassRateLabel
-            // 
-            this.PassRateLabel.AutoSize = true;
-            this.PassRateLabel.Location = new System.Drawing.Point(150, 136);
-            this.PassRateLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.PassRateLabel.Name = "PassRateLabel";
-            this.PassRateLabel.Size = new System.Drawing.Size(16, 13);
-            this.PassRateLabel.TabIndex = 9;
-            this.PassRateLabel.Text = "---";
-            // 
-            // PassFailLabel
-            // 
-            this.PassFailLabel.AutoSize = true;
-            this.PassFailLabel.Location = new System.Drawing.Point(6, 110);
-            this.PassFailLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.PassFailLabel.Name = "PassFailLabel";
-            this.PassFailLabel.Size = new System.Drawing.Size(64, 13);
-            this.PassFailLabel.TabIndex = 8;
-            this.PassFailLabel.Text = "Pass Count:";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 83);
-            this.label2.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(89, 13);
-            this.label2.TabIndex = 7;
-            this.label2.Text = "Total Test Count:";
-            // 
-            // RunCountLabel
-            // 
-            this.RunCountLabel.AutoSize = true;
-            this.RunCountLabel.Location = new System.Drawing.Point(150, 83);
-            this.RunCountLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
-            this.RunCountLabel.Name = "RunCountLabel";
-            this.RunCountLabel.Size = new System.Drawing.Size(16, 13);
-            this.RunCountLabel.TabIndex = 6;
-            this.RunCountLabel.Text = "---";
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(182, 19);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(83, 41);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Clean Stats";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
-            // 
-            // SnipLogBtn
-            // 
-            this.SnipLogBtn.Location = new System.Drawing.Point(95, 19);
-            this.SnipLogBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.SnipLogBtn.Name = "SnipLogBtn";
-            this.SnipLogBtn.Size = new System.Drawing.Size(83, 41);
-            this.SnipLogBtn.TabIndex = 2;
-            this.SnipLogBtn.Text = "Snip Log";
-            this.SnipLogBtn.UseVisualStyleBackColor = true;
-            this.SnipLogBtn.Click += new System.EventHandler(this.SnipLogBtn_Click);
-            // 
-            // CleanLogBtn
-            // 
-            this.CleanLogBtn.Location = new System.Drawing.Point(8, 19);
-            this.CleanLogBtn.Margin = new System.Windows.Forms.Padding(2);
-            this.CleanLogBtn.Name = "CleanLogBtn";
-            this.CleanLogBtn.Size = new System.Drawing.Size(83, 41);
-            this.CleanLogBtn.TabIndex = 0;
-            this.CleanLogBtn.Text = "Clean Log";
-            this.CleanLogBtn.UseVisualStyleBackColor = true;
-            this.CleanLogBtn.Click += new System.EventHandler(this.CleanLogBtn_Click);
-            // 
             // LogGroupBox
             // 
             this.LogGroupBox.Controls.Add(this.LogTextBox);
@@ -1134,8 +991,6 @@ namespace CyBLE_MTK_Application
             this.ResultGroupBox.ResumeLayout(false);
             this.tableLayoutPanel7.ResumeLayout(false);
             this.tableLayoutPanel7.PerformLayout();
-            this.groupBox_supervisorControlPanel.ResumeLayout(false);
-            this.groupBox_supervisorControlPanel.PerformLayout();
             this.LogGroupBox.ResumeLayout(false);
             this.LogGroupBox.PerformLayout();
             this.ResumeLayout(false);
@@ -1213,24 +1068,13 @@ namespace CyBLE_MTK_Application
         private System.Windows.Forms.ToolStripMenuItem dataStatisticsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem yieldToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem startRobotServerToolStripMenuItem;
-        private System.Windows.Forms.GroupBox groupBox_supervisorControlPanel;
-        private System.Windows.Forms.Button CleanLogBtn;
-        private System.Windows.Forms.Button SnipLogBtn;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label CycleTimePerCountLabel;
-        private System.Windows.Forms.Label CycleTimeLabel;
-        private System.Windows.Forms.Label PassRateLabel;
-        private System.Windows.Forms.Label PassFailLabel;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label RunCountLabel;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label PassCountLabel;
         private System.Windows.Forms.ToolStripStatusLabel RobotLabel;
         private System.Windows.Forms.Label label_appmode;
         private System.Windows.Forms.ToolStripMenuItem instrumentsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dmmSwitchSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem manufacturingModeConfigToolStripMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel4;
+        private System.Windows.Forms.ToolStripStatusLabel DatabaseStatusLabel;
     }
 }
 

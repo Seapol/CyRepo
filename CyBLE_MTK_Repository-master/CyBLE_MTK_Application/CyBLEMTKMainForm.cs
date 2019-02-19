@@ -131,7 +131,7 @@ namespace CyBLE_MTK_Application
         /// <summary>
         /// SWJShopfloorDB
         /// </summary>
-        private SFCS_DB_Helper SFCS_DB;
+        private MicrosoftSQLDB mTKDB;
 
 
         public CyBLE_MTK()
@@ -445,14 +445,21 @@ namespace CyBLE_MTK_Application
             SplashScreen.LoadMessage = "Initialization Complete";
 
 
-            ///Shopfloor Access Database
+            ///Shopfloor Database
             ///
 
             if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
             {
 
                 DataBaseStatus.ForeColor = Color.Black;
-                DataBaseStatus.BackColor = Color.Green;
+                DataBaseStatus.BackColor = Color.WhiteSmoke;
+                DataBaseStatus.Text = "Idle";
+            }
+            else
+            {
+                DataBaseStatus.ForeColor = Color.Black;
+                DataBaseStatus.BackColor = Color.Red;
+                DataBaseStatus.Text = "Closed";
             }
 
 
@@ -3869,15 +3876,7 @@ namespace CyBLE_MTK_Application
 
         private bool stopStats = false;
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            this.Refresh();
-            RunCountLabel.Text = "---";
-            PassRateLabel.Text = "---";
-            CycleTimePerCountLabel.Text = "---";
 
-            stopStats = true;
-        }
 
 
 
@@ -4124,7 +4123,7 @@ namespace CyBLE_MTK_Application
 
             if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
             {
-                SFCS_DB = new SFCS_DB_Helper(Logger);
+                mTKDB = new MicrosoftSQLDB(Logger);
 
             }
 
@@ -4279,46 +4278,37 @@ namespace CyBLE_MTK_Application
                 Logger.PrintLog(this, m_SFCS.GetType().ToString().Substring(22) + " UPLOAD INFO : " + "DUT#" + (i + 1).ToString() + "  SN: " + SerialNumber + "    \tModel: " + Model + "       \tTesterID: " + TesterID + "       \tErrCode: " + errorcode.ToString("X4") + "       \tTestResult: " + DUTTestResultToShopfloor, LogDetailLevel.LogRelevant);
 
 
-                #region ShopfloorAccessDatabase
+                #region ShopfloorSQLDatabase
                 if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
                 {
-                    //SFCS_DB = new SFCS_DB_Helper(Logger);
+                    mTKDB = new MicrosoftSQLDB(Logger);
+                    mTKDB.TableName = CyBLE_MTK_Application.Properties.Settings.Default.SQLServerDatabaseTableName;
 
+                    MTKRecord record = FillinRecord(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID, LogWriteLine, "N/A");
+                    ConfigMTKDB(mTKDB, record);
 
-                    SFCS_DB.InsertRow(SerialNumber + "$" + Model + "$" + "MTK" + "$" + errorcode + "$" + TesterID + "$" + socket_no + "$" + MFI_ID + "$" + LogWriteLine + "$" + DUTTestResultToShopfloor);
+                    mTKDB.DoWork(SQLAction.InsertRow);
+
+                    if (mTKDB.IsOKOpen)
+                    {
+                        DataBaseStatus.ForeColor = Color.Black;
+                        DataBaseStatus.BackColor = Color.Green;
+                        DataBaseStatus.Text = "Opened";
+                    }
+                    else
+                    {
+                        DataBaseStatus.ForeColor = Color.Black;
+                        DataBaseStatus.BackColor = Color.Red;
+                        DataBaseStatus.Text = "Closed";
+                    }
                 }
 
                 #endregion
 
 
-                COUNT_ALL++;
-
-                if (DUTTestResultToShopfloor.ToUpper().Contains("PASS"))
-                {
-                    COUNT_PASS++;
-                }
-                else
-                {
-                    COUNT_FAIL++;
-                }
-
-                if (!stopStats)
-                {
-                    this.RunCountLabel.Text = TestProgramManager.RunCount.ToString();
-                    this.RunCountLabel.Text = (TestProgramManager.RunCount * numOfDUTs).ToString();
 
 
-
-                    //this.PassRateLabel.Text = COUNT_PASS.ToString() + " / " + COUNT_FAIL.ToString();
-
-                    if (COUNT_ALL > 0)
-                    {
-                        this.PassRateLabel.Text = (Math.Round((((double)COUNT_PASS) / ((double)COUNT_ALL)) * 100, 3)).ToString() + " %";
-                        this.CycleTimePerCountLabel.Text = Math.Round(TestProgramManager.stopwatch.Elapsed.TotalSeconds, 3).ToString() + " secs";
-                        this.PassCountLabel.Text = COUNT_PASS.ToString();
-                    }
-
-                }
+                
 
 
                 DUTInfoDataGridView.Rows[i].Cells["Unique ID"].Value = "";//clear the SN for next test
@@ -4341,8 +4331,42 @@ namespace CyBLE_MTK_Application
 
             if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
             {
-                Logger.PrintLog(this, $"Update Database {SFCS_DB.MDBfileFullPathWithFileName} is DONE", LogDetailLevel.LogRelevant);
+                mTKDB.DoWork(SQLAction.GetRowCnt);
+                Logger.PrintLog(this, $"Update Database {mTKDB.TableName} is DONE", LogDetailLevel.LogRelevant);
             }
+        }
+
+        private void ConfigMTKDB(MicrosoftSQLDB mTKDB, MTKRecord record)
+        {
+            mTKDB.Column_list = nameof(record.Serial_NO) + "," + nameof(record.Model_Name) + "," + nameof(record.Test_Mstation)
+                + "," + nameof(record.Test_Code) + "," + nameof(record.TesterID) + "," + nameof(record.SocketNo) + "," + nameof(record.MFI_ID)
+                + "," + nameof(record.Test_Log) + "," + nameof(record.Test_Result) + "," + nameof(record.Remarks) + "," + nameof(record.Test_Date)
+                + "," + nameof(record.Test_Time) + "," + nameof(record.Test_HourCntOfDay);
+
+            mTKDB.Value_list = "'" + record.Serial_NO + "'" + "," + "'" + record.Model_Name + "'" + "," + "'" + record.Test_Mstation
+                + "'" + "," + "'" + record.Test_Code + "'" + "," + "'" + record.TesterID + "'" + "," + "'" + record.SocketNo + "'" + "," + "'" + record.MFI_ID + "'"
+                + "," + "'" + record.Test_Log + "'" + "," + "'" + record.Test_Result + "'" + "," + "'" + record.Remarks + "'" + "," + "'" + record.Test_Date + "'"
+                + "," + "'" + record.Test_Time + "'" + "," + "'" + record.Test_HourCntOfDay + "'";
+        }
+
+        private MTKRecord FillinRecord(string SerialNumber, string Model, string TesterID, UInt16 errorcode, string SocketId, string TestResult, string TestStation, string MFI_ID, string TestLog, string remarks)
+        {
+            MTKRecord record = new MTKRecord();
+            record.Serial_NO = SerialNumber;
+            record.Model_Name = Model;
+            record.Test_Mstation = TestStation;
+            record.Test_Code = errorcode;
+            record.TesterID = TesterID;
+            record.SocketNo = SocketId;
+            record.MFI_ID = MFI_ID;
+            record.Test_Log = TestLog;
+            record.Test_Result = TestResult;
+            record.Remarks = remarks;
+            record.Test_Date = System.DateTime.Now.Date.ToShortDateString();
+            record.Test_Time = System.DateTime.Now.ToString("hh:mm:ss");
+            record.Test_HourCntOfDay = System.DateTime.Now.Hour;
+
+            return record;
         }
 
         private void UpdateAllDutTestStatusAndOverallTestResultLabel(ushort[] dUTOverallSFCSErrCode, ushort[] mTKTestProgramAllTmplSFCSErrCodes, int CurrentDut)
