@@ -207,7 +207,7 @@ namespace CyBLE_MTK_Application
                     LogWriteLine += "," + TestResults[i].Parameters[j] + "," + TestResults[i].Value[j];
                 }
 
-                CyBLE_MTK.LogWriteLine = LogWriteLine;
+                CyBLE_MTK.LogWriteLine += LogWriteLine + " ";
                 TestLogFile.WriteLine(LogWriteLine);
             }
         }

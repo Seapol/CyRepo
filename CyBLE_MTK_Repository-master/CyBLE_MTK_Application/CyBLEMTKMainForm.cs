@@ -73,7 +73,7 @@ namespace CyBLE_MTK_Application
 
         public static bool[] DUTsTestFlag = {true,true,true,true, true, true, true, true };
 
-        public static string LogWriteLine = "None";
+        public static string LogWriteLine = "";
 
 
         /// <summary>
@@ -452,14 +452,15 @@ namespace CyBLE_MTK_Application
             {
 
                 DataBaseStatus.ForeColor = Color.Black;
-                DataBaseStatus.BackColor = Color.WhiteSmoke;
-                DataBaseStatus.Text = "Idle";
+                DataBaseStatus.BackColor = Color.Red;
+                DataBaseStatus.Text = "Closed";
             }
             else
             {
+
                 DataBaseStatus.ForeColor = Color.Black;
-                DataBaseStatus.BackColor = Color.Red;
-                DataBaseStatus.Text = "Closed";
+                DataBaseStatus.BackColor = Color.WhiteSmoke;
+                DataBaseStatus.Text = "OFF";
             }
 
 
@@ -4282,6 +4283,22 @@ namespace CyBLE_MTK_Application
                 if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
                 {
                     mTKDB = new MicrosoftSQLDB(Logger);
+
+                    if (mTKDB.IsOKOpen)
+                    {
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Green));
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Opened"));
+
+                    }
+                    else
+                    {
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Red));
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Closed"));
+
+                    }
+
                     mTKDB.TableName = CyBLE_MTK_Application.Properties.Settings.Default.SQLServerDatabaseTableName;
 
                     MTKRecord record = FillinRecord(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID, LogWriteLine, "N/A");
@@ -4291,15 +4308,17 @@ namespace CyBLE_MTK_Application
 
                     if (mTKDB.IsOKOpen)
                     {
-                        DataBaseStatus.ForeColor = Color.Black;
-                        DataBaseStatus.BackColor = Color.Green;
-                        DataBaseStatus.Text = "Opened";
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Green));
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Opened"));
+
                     }
                     else
                     {
-                        DataBaseStatus.ForeColor = Color.Black;
-                        DataBaseStatus.BackColor = Color.Red;
-                        DataBaseStatus.Text = "Closed";
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Red));
+                        this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Closed"));
+
                     }
                 }
 

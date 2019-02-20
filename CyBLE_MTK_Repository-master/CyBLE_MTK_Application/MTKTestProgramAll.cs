@@ -237,7 +237,6 @@ namespace CyBLE_MTK_Application
 
             MTKTestError return_value = MTKTestError.NoError;
 
-            
 
             programCompleted = true;
 
@@ -284,12 +283,13 @@ namespace CyBLE_MTK_Application
                 //}
 
             }
-            else
-            {
-                TestResult.Result = "DONE";
-                TestResultUpdate(TestResult);
-                TestStatusUpdate(MTKTestMessageType.Complete, "DONE");
-            }
+            //else
+            //{
+            //    InitializeTestResult();
+            //    TestResult.Result = "DONE";
+            //    TestResultUpdate(TestResult);
+            //    TestStatusUpdate(MTKTestMessageType.Complete, "DONE");
+            //}
 
 
 

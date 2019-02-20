@@ -154,8 +154,7 @@ namespace CyBLE_MTK_Application
 
 
             Console.WriteLine("Get DB row count: {0}", retVal);
-            Logger.PrintLog(this, $"Get DB row count: {retVal}.", LogDetailLevel.LogRelevant);
-
+            Logger.PrintLog(this, $"Workstation ({connection.WorkstationId}) GETs DB row count: <{retVal}> FROM {connection.Database} ({connection.DataSource}).", LogDetailLevel.LogRelevant);
 
         }
 
@@ -194,8 +193,8 @@ namespace CyBLE_MTK_Application
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("Fail to open DB connection. Timeout: {0} msec.", connection.ConnectionTimeout);
-                        Logger.PrintLog(this, $"Fail to open DB connection. Timeout: {connection.ConnectionTimeout} msec.", LogDetailLevel.LogEverything);
+                        Console.WriteLine("Fail to open DB connection. Timeout: {0} sec.", connection.ConnectionTimeout);
+                        Logger.PrintLog(this, $"Fail to open DB {connection.Database} ({connection.DataSource}) connection. Timeout: {connection.ConnectionTimeout} sec.", LogDetailLevel.LogRelevant);
                         isOKOpen = false;
                     }
 
@@ -205,12 +204,12 @@ namespace CyBLE_MTK_Application
                         case ConnectionState.Closed:
                             System.Threading.Thread.Sleep(SleepWaitTime);
                             Console.WriteLine("Open {0} Failure", this.GetType().ToString().Substring(22));
-                            Logger.PrintLog(this, $"Open {this.GetType().ToString().Substring(22)} Failure.", LogDetailLevel.LogEverything);
+                            Logger.PrintLog(this, $"Open {this.GetType().ToString().Substring(22)} {connection.Database} ({connection.DataSource}) Failure.", LogDetailLevel.LogRelevant);
 
                             break;
                         case ConnectionState.Open:
                             Console.WriteLine("Open {0} Successfully", this.GetType().ToString().Substring(22));
-                            Logger.PrintLog(this, $"Open {this.GetType().ToString().Substring(22)} Successfully.", LogDetailLevel.LogEverything);
+                            Logger.PrintLog(this, $"Open {this.GetType().ToString().Substring(22)} {connection.Database} ({connection.DataSource}) Successfully.", LogDetailLevel.LogRelevant);
 
                             return connection.State;
                         case ConnectionState.Connecting:
@@ -255,11 +254,13 @@ namespace CyBLE_MTK_Application
                 {
                     if (connection.State != ConnectionState.Open)
                     {
+                        isOKOpen = false;
                         System.Threading.Thread.Sleep(WaitSleepTime);
                         connection.Open();
                     }
                     else
                     {
+                        isOKOpen = true;
                         break;
                     }
                 }

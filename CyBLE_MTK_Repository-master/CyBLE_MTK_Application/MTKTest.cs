@@ -365,10 +365,12 @@ namespace CyBLE_MTK_Application
         {
             CurrentMTKTestType = MTKTestType.MTKTest;
 
-            TestResult = new MTKTestResult();
-            TestResult.TestName = this.ToString();
-            TestResult.Parameters = new string[TestParameterCount];
-            TestResult.Value = new string[TestParameterCount];
+            TestResult = new MTKTestResult
+            {
+                TestName = this.ToString(),
+                Parameters = new string[TestParameterCount],
+                Value = new string[TestParameterCount]
+            };
             for (int i = 0; i < TestParameterCount; i++)
             {
                 TestResult.Parameters[i] = GetTestParameterName(i);
