@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CyBLE_MTK_Application.CyBLE_MTK">
+    <Position X="6.5" Y="0.5" Width="4.25" />
+    <NestedTypes>
+      <Delegate Name="CyBLE_MTK_Application.CyBLE_MTK.SetVoidCallback" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CyBLEMTKMainForm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Delegate Name="CyBLE_MTK_Application.CyBLE_MTK.SetDialogCallback" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CyBLEMTKMainForm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Delegate>
+      <Struct Name="CyBLE_MTK_Application.CyBLE_MTK.FLASHWINFO" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CyBLEMTKMainForm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>d+sy8v/XKz/M33eyz1vPxZgb5W3rd675d/UvIXRNpK8=</HashCode>
+      <FileName>CyBLEMTKMainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CyBLE_MTK_Application.DataGridViewDisableButtonCell" Collapsed="true">
+    <Position X="2.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAQIABA=</HashCode>
+      <FileName>CyBLEMTKMainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CyBLE_MTK_Application.DataGridViewDisableButtonColumn" Collapsed="true">
+    <Position X="0.5" Y="1.5" Width="3.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CyBLEMTKMainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CyBLE_MTK_Application.MTKTestStatus" Collapsed="true">
+    <Position X="2.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAQAIAAAAAA=</HashCode>
+      <FileName>CyBLEMTKMainForm.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

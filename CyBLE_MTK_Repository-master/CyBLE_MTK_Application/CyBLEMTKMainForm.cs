@@ -182,7 +182,7 @@ namespace CyBLE_MTK_Application
             MTKSerialPortDialog.CloseOnConnect = CyBLE_MTK_Application.Properties.Settings.Default.CloseSerialDialog;
             MTKSerialPortDialog.AutoVerifyON = true;
             HostStatus.BackColor = Color.Red;
-            MTKSerialPortDialog.OnDUTConnectionStatusChange += new SerialPortSettingsDialog.ConnectionEventHandler(MTKSerialPortDialog_OnDUTConnectionStatusChange);
+            //MTKSerialPortDialog.OnDUTConnectionStatusChange += new SerialPortSettingsDialog.ConnectionEventHandler(MTKSerialPortDialog_OnDUTConnectionStatusChange);
             MTKSerialPortDialog.OnHostConnectionStatusChange += new SerialPortSettingsDialog.ConnectionEventHandler(MTKSerialPortDialog_OnHostConnectionStatusChange);
             SplashScreen.LoadStatus += 8;
 
@@ -1268,6 +1268,12 @@ namespace CyBLE_MTK_Application
             {
                 CyBLE_MTK_Application.Properties.Settings.Default.MTKHostSerialPort = MTKSerialPortDialog.DeviceSerialPort.PortName;
                 CyBLE_MTK_Application.Properties.Settings.Default.Save();
+
+                MTKSerialPortDialog_OnHostConnectionStatusChange("CONNECTED");
+            }
+            else
+            {
+                MTKSerialPortDialog_OnHostConnectionStatusChange("DISCONNECTED");
             }
         }
 

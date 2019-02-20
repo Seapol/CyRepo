@@ -183,7 +183,7 @@ namespace CyBLE_MTK_Application
                 connection.StateChange += (sender, e) => { Console.WriteLine($"DBconnectionStatus: {e.OriginalState} --> {e.CurrentState}"); };
 
 
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 1; i++)
                 {
 
                     try
