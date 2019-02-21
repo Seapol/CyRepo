@@ -176,15 +176,7 @@ namespace CyBLE_MTK_Application
                         }
                         catch (Exception err)
                         {
-                            if (Log.LogDetails != LogDetailLevel.LogEverything)
-                            {
-                                MessageBox.Show("Unable to open " + _ComPortInfoList[SerialPortCombo.SelectedIndex].Name + "\nPlease check if it is in use.", "Error", MessageBoxButtons.OK); //cysp
-                            }
-                            else
-                            {
-                                MessageBox.Show("Unable to open " + _ComPortInfoList[SerialPortCombo.SelectedIndex].Name + "\nReasons:\n" + err.ToString(), "Error", MessageBoxButtons.OK); //cysp
-                            }
-
+                            MessageBox.Show("Unable to open " + _ComPortInfoList[SerialPortCombo.SelectedIndex].Name + "\nReasons:\n" + err.Message, "Error", MessageBoxButtons.OK); //cysp
                         }
                     }
                 }

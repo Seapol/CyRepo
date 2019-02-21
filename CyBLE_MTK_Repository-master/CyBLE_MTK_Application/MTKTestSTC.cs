@@ -294,18 +294,26 @@ namespace CyBLE_MTK_Application
             TestResult.Measured = CommandResult;
             this.Log.PrintLog(this, "Packets transmitted: " + this.CommandResult, LogDetailLevel.LogEverything);
 
-            if (Int32.Parse(CommandResult) < PacketCount)
+            if (!MTKSerialPort.IsOpen)
+            {
+                TestStatusUpdate(MTKTestMessageType.Information, "ERROR");
+                this.Log.PrintLog(this, "Result: ERROR due to Host Serial COM port is not open", LogDetailLevel.LogRelevant);
+                RetVal = MTKTestError.MissingMTKSerialPort;
+                TestResult.Result = "ERROR";
+            }
+            else if (Int32.Parse(CommandResult) >= PacketCount)
+            {
+                TestStatusUpdate(MTKTestMessageType.Success, "PASS");
+                this.Log.PrintLog(this, "Result: PASS", LogDetailLevel.LogRelevant);
+                RetVal = MTKTestError.NoError;
+                TestResult.Result = "PASS";
+            }
+            else
             {
                 TestStatusUpdate(MTKTestMessageType.Failure, "FAIL");
                 RetVal = MTKTestError.TestFailed;
                 TestResult.Result = "FAIL";
                 this.Log.PrintLog(this, "Result: FAIL", LogDetailLevel.LogRelevant);
-            }
-            else
-            {
-                TestStatusUpdate(MTKTestMessageType.Success, "PASS");
-                this.Log.PrintLog(this, "Result: PASS", LogDetailLevel.LogRelevant);
-                TestResult.Result = "PASS";
             }
 
             ////  Command #5
@@ -315,7 +323,7 @@ namespace CyBLE_MTK_Application
             //{
             //    return CommandRetVal;
             //}
-            
+
             return RetVal;
         }
 
@@ -364,7 +372,15 @@ namespace CyBLE_MTK_Application
 
             if (RetVal == MTKTestError.NoError)
             {
-                MTKTestTmplSFCSErrCode = ECCS.ERRORCODE_ALL_PASS;
+                if (MTKSerialPort.IsOpen)
+                {
+                    MTKTestTmplSFCSErrCode = ECCS.ERRORCODE_ALL_PASS;
+                }
+                else
+                {
+                    MTKTestTmplSFCSErrCode = ECCS.ERROR_CODE_CAUSED_BY_MTK_TESTER;
+                }
+                
             }
             else if (RetVal == MTKTestError.IgnoringDUT)
             {

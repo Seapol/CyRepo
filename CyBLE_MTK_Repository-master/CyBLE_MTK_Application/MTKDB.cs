@@ -73,9 +73,9 @@ namespace CyBLE_MTK_Application
 
         public MTKDB(LogManager logger)
         {
+            isOKOpen = false;
             Logger = logger;
             InitDB();
-            isOKOpen = false;
         }
 
 
@@ -86,8 +86,15 @@ namespace CyBLE_MTK_Application
 
             try
             {
-                OpenConnection();
-                isOKOpen = true;
+
+                if (OpenConnection() == ConnectionState.Open)
+                {
+                    isOKOpen = true;
+                }
+                else
+                {
+                    isOKOpen = false;
+                }
 
             }
             catch (Exception ex)

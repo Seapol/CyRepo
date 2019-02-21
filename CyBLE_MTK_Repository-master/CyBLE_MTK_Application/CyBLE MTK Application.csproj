@@ -64,7 +64,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\CyBLE_MTK_Release_4.2.0_CYBLE-012011-00\</OutputPath>
+    <OutputPath>bin\CyBLE_MTK_Release_4.2.1_CYBLE-012011-00\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -164,7 +164,7 @@
     </Reference>
     <Reference Include="HexadecimalTextBox, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>E:\WICED_MTK_v4.5.18.1219_CYBT-213043-MESH\HexadecimalTextBox.dll</HintPath>
+      <HintPath>D:\GitHub Download\v4.0.6\CyBLE_sigma\CyBLE_MTK_Application\bin\Release\HexadecimalTextBox.dll</HintPath>
     </Reference>
     <Reference Include="Ivi.Visa.Interop">
       <HintPath>.\Ivi.Visa.Interop.dll</HintPath>

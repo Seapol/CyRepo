@@ -1185,9 +1185,9 @@ namespace CyBLE_MTK_Application
                             {
                                 TestStatusUpdate(Testno, MTKTestMessageType.Information, "Ignored");
                             }
-                            else if (MTKTestProgram.DUTTmplSFCSErrCode[DUTno, Testno] == ECCS.ERRORCODE_ALL_PASS)
+                            else if (MTKTestProgram.DUTTmplSFCSErrCode[DUTno, Testno] == ECCS.ERROR_CODE_CAUSED_BY_MTK_TESTER)
                             {
-                                TestStatusUpdate(Testno, MTKTestMessageType.Success, "Pass");
+                                TestStatusUpdate(Testno, MTKTestMessageType.Failure, "Error");
                             }
                             else
                             {
@@ -2344,7 +2344,7 @@ namespace CyBLE_MTK_Application
                 }
 
 
-                StopTests();
+                //StopTests();
             }
 
             if (Error == MTKTestError.MissingDUTSerialPort)
@@ -2371,7 +2371,7 @@ namespace CyBLE_MTK_Application
                     }
 
 
-                    StopTests();
+                    //StopTests();
                 }
             }
         }
@@ -4164,7 +4164,9 @@ namespace CyBLE_MTK_Application
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Shopfloor UploadResult Error");
+                //MessageBox.Show(ex.Message, "Shopfloor UploadResult Error");
+
+                Logger.PrintLog(this,ex.Message,LogDetailLevel.LogRelevant);
             }
             finally
             {
@@ -4187,6 +4189,36 @@ namespace CyBLE_MTK_Application
             int numOfDUTs = DUTInfoDataGridView.RowCount;            //indicate how many DUTs
 
             Logger.PrintLog(this, "UploadTestResult is in progress...Please wait...", LogDetailLevel.LogRelevant);
+
+            #region ShopfloorSQLDatabase
+            if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
+            {
+                mTKDB = new MicrosoftSQLDB(Logger);
+
+                if (mTKDB.IsOKOpen)
+                {
+                    this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
+                    this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Green));
+                    this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Opened"));
+
+                }
+                else
+                {
+                    this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
+                    this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Red));
+                    this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Closed"));
+
+                }
+
+                if (mTKDB != null)
+                {
+                    mTKDB.TableName = CyBLE_MTK_Application.Properties.Settings.Default.SQLServerDatabaseTableName;
+                }
+
+
+            }
+
+            #endregion
 
             //DUT one by one
             for (int i = 0; i < DUTInfoDataGridView.Rows.Count; i++)
@@ -4288,44 +4320,34 @@ namespace CyBLE_MTK_Application
                 #region ShopfloorSQLDatabase
                 if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
                 {
-                    mTKDB = new MicrosoftSQLDB(Logger);
-
-                    if (mTKDB.IsOKOpen)
+                    if (mTKDB != null)
                     {
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Green));
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Opened"));
+                        MTKRecord record = FillinRecord(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID, LogWriteLine, "N/A");
+                        ConfigMTKDB(mTKDB, record);
+
+                        
+
+                        if (mTKDB.IsOKOpen)
+                        {
+                            this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
+                            this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Green));
+                            this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Opened"));
+
+                            mTKDB.DoWork(SQLAction.InsertRow);
+
+                        }
+                        else
+                        {
+                            this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
+                            this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Red));
+                            this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Closed"));
+
+                        }
 
                     }
-                    else
-                    {
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Red));
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Closed"));
 
-                    }
 
-                    mTKDB.TableName = CyBLE_MTK_Application.Properties.Settings.Default.SQLServerDatabaseTableName;
 
-                    MTKRecord record = FillinRecord(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID, LogWriteLine, "N/A");
-                    ConfigMTKDB(mTKDB, record);
-
-                    mTKDB.DoWork(SQLAction.InsertRow);
-
-                    if (mTKDB.IsOKOpen)
-                    {
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Green));
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Opened"));
-
-                    }
-                    else
-                    {
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Red));
-                        this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Closed"));
-
-                    }
                 }
 
                 #endregion
