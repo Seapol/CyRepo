@@ -1046,12 +1046,12 @@ namespace CyBLE_MTK_Application.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool SQLDataBaseEnable {
+        public bool SQLServerDataBaseEnable {
             get {
-                return ((bool)(this["SQLDataBaseEnable"]));
+                return ((bool)(this["SQLServerDataBaseEnable"]));
             }
             set {
-                this["SQLDataBaseEnable"] = value;
+                this["SQLServerDataBaseEnable"] = value;
             }
         }
         

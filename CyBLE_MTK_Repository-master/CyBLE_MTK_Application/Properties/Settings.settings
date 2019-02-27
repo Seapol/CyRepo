@@ -257,7 +257,7 @@
     <Setting Name="DUTModelLengthOverride" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="SQLDataBaseEnable" Type="System.Boolean" Scope="User">
+    <Setting Name="SQLServerDataBaseEnable" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="DUTProgrammerName" Type="System.Collections.Specialized.StringCollection" Scope="User">
