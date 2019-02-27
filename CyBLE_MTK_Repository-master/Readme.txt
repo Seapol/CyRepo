@@ -1,4 +1,7 @@
 Release notes:
+2019-02-21 (v4.2.2)
+1.Add UI buttion in the CyBLEMTKMainForm to switch on/off the SQLDatabaseEnable.
+
 2019-02-21 (v4.2.1)
 1.Fix the status display in the DUTInfoDataGridView and TestProgramDataGridView when statusOnError event happened like MissingMTKHostSerialPort Error.
 2.Fix the problem When remote DB is not available, the connection.open would throw exception that caused the program stop to finish the whole process.

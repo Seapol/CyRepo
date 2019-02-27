@@ -257,14 +257,8 @@
     <Setting Name="DUTModelLengthOverride" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="ShopfloorDataBaseEnable" Type="System.Boolean" Scope="User">
+    <Setting Name="SQLDataBaseEnable" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
-    </Setting>
-    <Setting Name="ShopfloorDataBaseLocation" Type="System.String" Scope="User">
-      <Value Profile="(Default)">\\hlksrv\Share\Temp\cysp\temp</Value>
-    </Setting>
-    <Setting Name="ShopfloorDataBaseFile" Type="System.String" Scope="User">
-      <Value Profile="(Default)">SWJshopfloorDB.mdb</Value>
     </Setting>
     <Setting Name="DUTProgrammerName" Type="System.Collections.Specialized.StringCollection" Scope="User">
       <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
@@ -557,7 +551,7 @@
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="SQLServerDatabaseTableName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">MTKTestInfo</Value>
+      <Value Profile="(Default)">MTKTestInfo2019</Value>
     </Setting>
   </Settings>
 </SettingsFile>

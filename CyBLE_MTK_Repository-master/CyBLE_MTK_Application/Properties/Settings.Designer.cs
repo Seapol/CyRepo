@@ -1046,36 +1046,12 @@ namespace CyBLE_MTK_Application.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool ShopfloorDataBaseEnable {
+        public bool SQLDataBaseEnable {
             get {
-                return ((bool)(this["ShopfloorDataBaseEnable"]));
+                return ((bool)(this["SQLDataBaseEnable"]));
             }
             set {
-                this["ShopfloorDataBaseEnable"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\\\hlksrv\\Share\\Temp\\cysp\\temp")]
-        public string ShopfloorDataBaseLocation {
-            get {
-                return ((string)(this["ShopfloorDataBaseLocation"]));
-            }
-            set {
-                this["ShopfloorDataBaseLocation"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("SWJshopfloorDB.mdb")]
-        public string ShopfloorDataBaseFile {
-            get {
-                return ((string)(this["ShopfloorDataBaseFile"]));
-            }
-            set {
-                this["ShopfloorDataBaseFile"] = value;
+                this["SQLDataBaseEnable"] = value;
             }
         }
         
@@ -1470,7 +1446,7 @@ namespace CyBLE_MTK_Application.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MTKTestInfo")]
+        [global::System.Configuration.DefaultSettingValueAttribute("MTKTestInfo2019")]
         public string SQLServerDatabaseTableName {
             get {
                 return ((string)(this["SQLServerDatabaseTableName"]));

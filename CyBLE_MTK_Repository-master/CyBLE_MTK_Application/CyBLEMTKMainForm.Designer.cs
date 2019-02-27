@@ -32,13 +32,13 @@ namespace CyBLE_MTK_Application
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CyBLE_MTK));
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle6 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CyBLE_MTK));
             this.MTKMenuStrip = new System.Windows.Forms.MenuStrip();
             this.FileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.NewTestProgramMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -82,6 +82,9 @@ namespace CyBLE_MTK_Application
             this.toolStripStatusLabel2 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel4 = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel3 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.toolStripSplitButton1 = new System.Windows.Forms.ToolStripSplitButton();
+            this.turnOffDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.turnOnDBToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.DatabaseStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.DataBaseStatus = new System.Windows.Forms.ToolStripStatusLabel();
             this.toolStripStatusLabel5 = new System.Windows.Forms.ToolStripStatusLabel();
@@ -438,15 +441,16 @@ namespace CyBLE_MTK_Application
             this.toolStripStatusLabel2,
             this.toolStripStatusLabel4,
             this.toolStripStatusLabel3,
+            this.toolStripSplitButton1,
             this.DatabaseStatusLabel,
             this.DataBaseStatus,
             this.toolStripStatusLabel5,
             this.ApplicationStatusLabel,
             this.ApplicationStatus,
             this.toolStripStatusLabel6});
-            this.MTKStatStrip.Location = new System.Drawing.Point(0, 610);
+            this.MTKStatStrip.Location = new System.Drawing.Point(0, 606);
             this.MTKStatStrip.Name = "MTKStatStrip";
-            this.MTKStatStrip.Size = new System.Drawing.Size(924, 22);
+            this.MTKStatStrip.Size = new System.Drawing.Size(924, 26);
             this.MTKStatStrip.TabIndex = 4;
             this.MTKStatStrip.Text = "statusStrip1";
             // 
@@ -454,7 +458,7 @@ namespace CyBLE_MTK_Application
             // 
             this.ApplicationMode.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.ApplicationMode.Name = "ApplicationMode";
-            this.ApplicationMode.Size = new System.Drawing.Size(38, 17);
+            this.ApplicationMode.Size = new System.Drawing.Size(38, 21);
             this.ApplicationMode.Text = "Tester";
             // 
             // RobotLabel
@@ -462,7 +466,7 @@ namespace CyBLE_MTK_Application
             this.RobotLabel.BackColor = System.Drawing.Color.LightGray;
             this.RobotLabel.ForeColor = System.Drawing.Color.White;
             this.RobotLabel.Name = "RobotLabel";
-            this.RobotLabel.Size = new System.Drawing.Size(39, 17);
+            this.RobotLabel.Size = new System.Drawing.Size(39, 21);
             this.RobotLabel.Text = "Robot";
             // 
             // toolStripStatusLabel1
@@ -473,13 +477,13 @@ namespace CyBLE_MTK_Application
             this.toolStripStatusLabel1.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.toolStripStatusLabel1.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(4, 20);
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(4, 24);
             // 
             // HostStatus
             // 
             this.HostStatus.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.HostStatus.Name = "HostStatus";
-            this.HostStatus.Size = new System.Drawing.Size(32, 17);
+            this.HostStatus.Size = new System.Drawing.Size(32, 21);
             this.HostStatus.Text = "Host";
             // 
             // toolStripStatusLabel2
@@ -490,13 +494,13 @@ namespace CyBLE_MTK_Application
             this.toolStripStatusLabel2.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.toolStripStatusLabel2.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             this.toolStripStatusLabel2.Name = "toolStripStatusLabel2";
-            this.toolStripStatusLabel2.Size = new System.Drawing.Size(4, 20);
+            this.toolStripStatusLabel2.Size = new System.Drawing.Size(4, 24);
             // 
             // toolStripStatusLabel4
             // 
             this.toolStripStatusLabel4.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.toolStripStatusLabel4.Name = "toolStripStatusLabel4";
-            this.toolStripStatusLabel4.Size = new System.Drawing.Size(30, 17);
+            this.toolStripStatusLabel4.Size = new System.Drawing.Size(30, 21);
             this.toolStripStatusLabel4.Text = "DUT";
             // 
             // toolStripStatusLabel3
@@ -507,19 +511,45 @@ namespace CyBLE_MTK_Application
             this.toolStripStatusLabel3.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.toolStripStatusLabel3.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             this.toolStripStatusLabel3.Name = "toolStripStatusLabel3";
-            this.toolStripStatusLabel3.Size = new System.Drawing.Size(4, 20);
+            this.toolStripStatusLabel3.Size = new System.Drawing.Size(4, 24);
+            // 
+            // toolStripSplitButton1
+            // 
+            this.toolStripSplitButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.toolStripSplitButton1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.turnOffDBToolStripMenuItem,
+            this.turnOnDBToolStripMenuItem});
+            this.toolStripSplitButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripSplitButton1.Image")));
+            this.toolStripSplitButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripSplitButton1.Name = "toolStripSplitButton1";
+            this.toolStripSplitButton1.Size = new System.Drawing.Size(36, 24);
+            this.toolStripSplitButton1.Text = "toolStripSplitButton1";
+            // 
+            // turnOffDBToolStripMenuItem
+            // 
+            this.turnOffDBToolStripMenuItem.Name = "turnOffDBToolStripMenuItem";
+            this.turnOffDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.turnOffDBToolStripMenuItem.Text = "Turn Off DB";
+            this.turnOffDBToolStripMenuItem.Click += new System.EventHandler(this.turnOffDBToolStripMenuItem_Click);
+            // 
+            // turnOnDBToolStripMenuItem
+            // 
+            this.turnOnDBToolStripMenuItem.Name = "turnOnDBToolStripMenuItem";
+            this.turnOnDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.turnOnDBToolStripMenuItem.Text = "Turn On DB";
+            this.turnOnDBToolStripMenuItem.Click += new System.EventHandler(this.turnOnDBToolStripMenuItem_Click);
             // 
             // DatabaseStatusLabel
             // 
             this.DatabaseStatusLabel.Name = "DatabaseStatusLabel";
-            this.DatabaseStatusLabel.Size = new System.Drawing.Size(60, 17);
+            this.DatabaseStatusLabel.Size = new System.Drawing.Size(60, 21);
             this.DatabaseStatusLabel.Text = "DB Status:";
             // 
             // DataBaseStatus
             // 
             this.DataBaseStatus.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.DataBaseStatus.Name = "DataBaseStatus";
-            this.DataBaseStatus.Size = new System.Drawing.Size(28, 17);
+            this.DataBaseStatus.Size = new System.Drawing.Size(28, 21);
             this.DataBaseStatus.Text = "OFF";
             // 
             // toolStripStatusLabel5
@@ -530,18 +560,18 @@ namespace CyBLE_MTK_Application
             this.toolStripStatusLabel5.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.toolStripStatusLabel5.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             this.toolStripStatusLabel5.Name = "toolStripStatusLabel5";
-            this.toolStripStatusLabel5.Size = new System.Drawing.Size(4, 20);
+            this.toolStripStatusLabel5.Size = new System.Drawing.Size(4, 24);
             // 
             // ApplicationStatusLabel
             // 
             this.ApplicationStatusLabel.Name = "ApplicationStatusLabel";
-            this.ApplicationStatusLabel.Size = new System.Drawing.Size(45, 17);
+            this.ApplicationStatusLabel.Size = new System.Drawing.Size(45, 21);
             this.ApplicationStatusLabel.Text = "Status :";
             // 
             // ApplicationStatus
             // 
             this.ApplicationStatus.Name = "ApplicationStatus";
-            this.ApplicationStatus.Size = new System.Drawing.Size(26, 17);
+            this.ApplicationStatus.Size = new System.Drawing.Size(26, 21);
             this.ApplicationStatus.Text = "Idle";
             // 
             // toolStripStatusLabel6
@@ -552,7 +582,7 @@ namespace CyBLE_MTK_Application
             this.toolStripStatusLabel6.BorderStyle = System.Windows.Forms.Border3DStyle.Etched;
             this.toolStripStatusLabel6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 0);
             this.toolStripStatusLabel6.Name = "toolStripStatusLabel6";
-            this.toolStripStatusLabel6.Size = new System.Drawing.Size(4, 20);
+            this.toolStripStatusLabel6.Size = new System.Drawing.Size(4, 24);
             // 
             // tableLayoutPanel1
             // 
@@ -566,7 +596,7 @@ namespace CyBLE_MTK_Application
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 479F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(924, 586);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(924, 582);
             this.tableLayoutPanel1.TabIndex = 5;
             // 
             // MainSplitContainer
@@ -585,8 +615,8 @@ namespace CyBLE_MTK_Application
             // MainSplitContainer.Panel2
             // 
             this.MainSplitContainer.Panel2.Controls.Add(this.LogGroupBox);
-            this.MainSplitContainer.Size = new System.Drawing.Size(924, 586);
-            this.MainSplitContainer.SplitterDistance = 346;
+            this.MainSplitContainer.Size = new System.Drawing.Size(924, 582);
+            this.MainSplitContainer.SplitterDistance = 343;
             this.MainSplitContainer.TabIndex = 25;
             // 
             // tableLayoutPanel4
@@ -603,7 +633,7 @@ namespace CyBLE_MTK_Application
             this.tableLayoutPanel4.RowCount = 1;
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(924, 346);
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(924, 343);
             this.tableLayoutPanel4.TabIndex = 24;
             // 
             // DUTInformationGroupBox
@@ -612,7 +642,7 @@ namespace CyBLE_MTK_Application
             this.DUTInformationGroupBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.DUTInformationGroupBox.Location = new System.Drawing.Point(3, 3);
             this.DUTInformationGroupBox.Name = "DUTInformationGroupBox";
-            this.DUTInformationGroupBox.Size = new System.Drawing.Size(481, 340);
+            this.DUTInformationGroupBox.Size = new System.Drawing.Size(481, 337);
             this.DUTInformationGroupBox.TabIndex = 0;
             this.DUTInformationGroupBox.TabStop = false;
             this.DUTInformationGroupBox.Text = "DUT Information";
@@ -632,7 +662,7 @@ namespace CyBLE_MTK_Application
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel10.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel10.Size = new System.Drawing.Size(475, 321);
+            this.tableLayoutPanel10.Size = new System.Drawing.Size(475, 318);
             this.tableLayoutPanel10.TabIndex = 0;
             // 
             // DUTInfoDataGridView
@@ -667,7 +697,7 @@ namespace CyBLE_MTK_Application
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.DUTInfoDataGridView.RowHeadersDefaultCellStyle = dataGridViewCellStyle3;
-            this.DUTInfoDataGridView.Size = new System.Drawing.Size(475, 265);
+            this.DUTInfoDataGridView.Size = new System.Drawing.Size(475, 262);
             this.DUTInfoDataGridView.TabIndex = 37;
             // 
             // DUTcontextMenuStrip
@@ -785,7 +815,7 @@ namespace CyBLE_MTK_Application
             this.tableLayoutPanel5.RowCount = 2;
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 122F));
             this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(437, 346);
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(437, 343);
             this.tableLayoutPanel5.TabIndex = 1;
             // 
             // TestProgramGroupBox
@@ -958,7 +988,7 @@ namespace CyBLE_MTK_Application
             this.LogGroupBox.Location = new System.Drawing.Point(0, 0);
             this.LogGroupBox.Name = "LogGroupBox";
             this.LogGroupBox.Padding = new System.Windows.Forms.Padding(3, 3, 375, 3);
-            this.LogGroupBox.Size = new System.Drawing.Size(924, 236);
+            this.LogGroupBox.Size = new System.Drawing.Size(924, 235);
             this.LogGroupBox.TabIndex = 23;
             this.LogGroupBox.TabStop = false;
             this.LogGroupBox.Text = "Log";
@@ -974,7 +1004,7 @@ namespace CyBLE_MTK_Application
             this.LogTextBox.Name = "LogTextBox";
             this.LogTextBox.ReadOnly = true;
             this.LogTextBox.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.LogTextBox.Size = new System.Drawing.Size(921, 217);
+            this.LogTextBox.Size = new System.Drawing.Size(921, 216);
             this.LogTextBox.TabIndex = 6;
             // 
             // CyBLE_MTK
@@ -1101,6 +1131,9 @@ namespace CyBLE_MTK_Application
         private System.Windows.Forms.ToolStripStatusLabel DatabaseStatusLabel;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel5;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel6;
+        private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
+        private System.Windows.Forms.ToolStripMenuItem turnOffDBToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem turnOnDBToolStripMenuItem;
     }
 }
 

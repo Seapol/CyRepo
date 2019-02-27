@@ -448,7 +448,7 @@ namespace CyBLE_MTK_Application
             ///Shopfloor Database
             ///
 
-            if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
+            if (CyBLE_MTK_Application.Properties.Settings.Default.SQLDataBaseEnable && SQLDataBaseIsTurnedOn)
             {
 
                 DataBaseStatus.ForeColor = Color.Black;
@@ -4128,7 +4128,7 @@ namespace CyBLE_MTK_Application
             m_SFCS = new SFCS(Logger);
             m_SFCS = SFCS.GetSFCS(Logger);
 
-            if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
+            if (CyBLE_MTK_Application.Properties.Settings.Default.SQLDataBaseEnable && SQLDataBaseIsTurnedOn)
             {
                 mTKDB = new MicrosoftSQLDB(Logger);
 
@@ -4191,7 +4191,7 @@ namespace CyBLE_MTK_Application
             Logger.PrintLog(this, "UploadTestResult is in progress...Please wait...", LogDetailLevel.LogRelevant);
 
             #region ShopfloorSQLDatabase
-            if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
+            if (CyBLE_MTK_Application.Properties.Settings.Default.SQLDataBaseEnable && SQLDataBaseIsTurnedOn)
             {
                 mTKDB = new MicrosoftSQLDB(Logger);
 
@@ -4318,7 +4318,7 @@ namespace CyBLE_MTK_Application
 
 
                 #region ShopfloorSQLDatabase
-                if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
+                if (CyBLE_MTK_Application.Properties.Settings.Default.SQLDataBaseEnable && SQLDataBaseIsTurnedOn)
                 {
                     if (mTKDB != null)
                     {
@@ -4376,7 +4376,7 @@ namespace CyBLE_MTK_Application
             }
             Logger.PrintLog(this, "UploadTestResult is DONE", LogDetailLevel.LogRelevant);
 
-            if (CyBLE_MTK_Application.Properties.Settings.Default.ShopfloorDataBaseEnable)
+            if (CyBLE_MTK_Application.Properties.Settings.Default.SQLDataBaseEnable && SQLDataBaseIsTurnedOn)
             {
                 mTKDB.DoWork(SQLAction.GetRowCnt);
                 Logger.PrintLog(this, $"Update Database {mTKDB.TableName} is DONE", LogDetailLevel.LogRelevant);
@@ -4394,6 +4394,65 @@ namespace CyBLE_MTK_Application
                 + "'" + "," + "'" + record.Test_Code + "'" + "," + "'" + record.TesterID + "'" + "," + "'" + record.SocketNo + "'" + "," + "'" + record.MFI_ID + "'"
                 + "," + "'" + record.Test_Log + "'" + "," + "'" + record.Test_Result + "'" + "," + "'" + record.Remarks + "'" + "," + "'" + record.Test_Date + "'"
                 + "," + "'" + record.Test_Time + "'" + "," + "'" + record.Test_HourCntOfDay + "'";
+        }
+
+        private void turnOnDBToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SwitchONOFFSQLDatabase(SQLDataBaseSwitchAction.TurnOn); 
+        }
+
+        enum SQLDataBaseSwitchAction
+        {
+            TurnOn,
+            TurnOff
+        }
+
+        bool SQLDataBaseIsTurnedOn = true;
+        private bool SwitchONOFFSQLDatabase(SQLDataBaseSwitchAction action)
+        {
+
+            switch (action)
+            {
+                case SQLDataBaseSwitchAction.TurnOn:
+                    SQLDataBaseIsTurnedOn = true;
+                    if (CyBLE_MTK_Application.Properties.Settings.Default.SQLDataBaseEnable && SQLDataBaseIsTurnedOn)
+                    {
+                        Logger.PrintLog(this, "SQLDataBaseSwitchAction is turned on successfully.", LogDetailLevel.LogRelevant);
+                        DataBaseStatus.ForeColor = Color.Black;
+                        DataBaseStatus.BackColor = Color.Red;
+                        DataBaseStatus.Text = "Closed";
+                        return true;
+                    }
+                    else
+                    {
+                        Logger.PrintLog(this, "SQLDataBaseSwitchAction is turned on failure. SQLDataBaseEnable is still disabled", LogDetailLevel.LogRelevant);
+                    }
+                    break;
+                case SQLDataBaseSwitchAction.TurnOff:
+                    SQLDataBaseIsTurnedOn = false;
+                    if (CyBLE_MTK_Application.Properties.Settings.Default.SQLDataBaseEnable && SQLDataBaseIsTurnedOn)
+                    {
+                        Logger.PrintLog(this, "SQLDataBaseSwitchAction is turned off failure. SQLDataBaseEnable is still enabled", LogDetailLevel.LogRelevant);
+                    }
+                    else
+                    {
+                        Logger.PrintLog(this, "SQLDataBaseSwitchAction is turned off successfully.", LogDetailLevel.LogRelevant);
+                        DataBaseStatus.ForeColor = Color.Black;
+                        DataBaseStatus.BackColor = Color.WhiteSmoke;
+                        DataBaseStatus.Text = "OFF";
+                        return false;
+                    }
+                    break;
+
+            }
+
+            return false;
+
+        }
+
+        private void turnOffDBToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SwitchONOFFSQLDatabase(SQLDataBaseSwitchAction.TurnOff);
         }
 
         private MTKRecord FillinRecord(string SerialNumber, string Model, string TesterID, UInt16 errorcode, string SocketId, string TestResult, string TestStation, string MFI_ID, string TestLog, string remarks)

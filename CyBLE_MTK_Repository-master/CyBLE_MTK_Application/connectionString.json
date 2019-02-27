@@ -1,15 +1,10 @@
 {
   "Data": {
     "DefaultConnection": {
-      "ConnectionString": "Data Source=tcp:192.168.4.1,49172;Initial Catalog=MTK;Persist Security Info=True;User ID=user;Password=Cypress@123; Connection Timeout=1",
-      "SQLConnectionString": "Data Source=tcp:192.168.4.1,49172;Initial Catalog=MTK;Persist Security Info=True;User ID=user;Password=Cypress@123; Connection Timeout=1",
-      "AccessConnectionString": "Data Source=tcp:192.168.4.1,49172;Initial Catalog=MTK;Persist Security Info=True;User ID=user;Password=Cypress@123; Connection Timeout=1"
-    },
-    "LocalConnection": {
-      "ConnectionString": "Data Source=tcp:192.168.4.1,49172;Initial Catalog=MTK;Persist Security Info=True;User ID=user;Password=Cypress@123; Connection Timeout=1",
-      "SQLConnectionString": "Data Source=tcp:192.168.4.1,49172;Initial Catalog=MTK;Persist Security Info=True;User ID=user;Password=Cypress@123; Connection Timeout=1",
-      "AccessConnectionString": "Data Source=tcp:192.168.4.1,49172;Initial Catalog=MTK;Persist Security Info=True;User ID=user;Password=Cypress@123; Connection Timeout=1"
+      "SQLConnectionString": "Data Source=tcp:192.168.10.62,49172;Initial Catalog=MTK;Persist Security Info=True;User ID=user;Password=Cypress@123; Connection Timeout=1"
     }
+
   }
+
 
 }

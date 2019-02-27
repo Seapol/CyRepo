@@ -18,9 +18,14 @@
           <NewMemberFileName>CyBLEMTKMainForm.cs</NewMemberFileName>
         </TypeIdentifier>
       </Struct>
+      <Enum Name="CyBLE_MTK_Application.CyBLE_MTK.SQLDataBaseSwitchAction" Collapsed="true">
+        <TypeIdentifier>
+          <NewMemberFileName>CyBLEMTKMainForm.cs</NewMemberFileName>
+        </TypeIdentifier>
+      </Enum>
     </NestedTypes>
     <TypeIdentifier>
-      <HashCode>d+sy8v/XKz/M33eyz1vPxZgb5W3rd675d/UvIXRNpK8=</HashCode>
+      <HashCode>d+sy8v/XKz/M33eyz1/PxZgb5W/rd675d/0vIXRNpL8=</HashCode>
       <FileName>CyBLEMTKMainForm.cs</FileName>
     </TypeIdentifier>
   </Class>

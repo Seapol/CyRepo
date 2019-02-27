@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using static System.Console;
 
 namespace CyBLE_MTK_Application
 {
@@ -134,7 +129,7 @@ namespace CyBLE_MTK_Application
                 {
 
                     Console.WriteLine("Exception from ExecuteNonQuery: \n" + ex.ToString());
-                    Logger.PrintLog(this,"Exception from ExecuteNonQuery: \n" + ex.ToString(),LogDetailLevel.LogEverything);
+                    Logger.PrintLog(this,"Exception from ExecuteNonQuery: \n" + ex.ToString(),LogDetailLevel.LogRelevant);
                 }
 
 
