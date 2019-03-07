@@ -1,4 +1,8 @@
 Release notes:
+2019-02-21 (v4.2.3)
+1.Add AppSettings for PSoC Programmer Address Save.
+2.Add Connect() before PermissionCheck to save time for shopfloor access.
+
 2019-02-21 (v4.2.2)
 1.Add UI buttion in the CyBLEMTKMainForm to switch on/off the SQLDatabaseEnable.
 

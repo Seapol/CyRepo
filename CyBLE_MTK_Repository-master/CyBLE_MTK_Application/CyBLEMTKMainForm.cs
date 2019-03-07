@@ -66,6 +66,7 @@ namespace CyBLE_MTK_Application
         private static bool _runLock;
         private SFCS m_SFCS; //// shopfloor by pzho
         private bool[] shopfloor_permission;
+        
         private ECCS errcode_cal = new ECCS();   //// errorcode by cysp
         private List<UInt16> errcodes = new List<UInt16>();
 
@@ -265,12 +266,24 @@ namespace CyBLE_MTK_Application
             SplashScreen.LoadMessage = "Setting up DUT programmers and serial ports...";
             DUTProgrammers = new List<MTKPSoCProgrammer>();
             DUTSerialPorts = new List<SerialPort>();
+            Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
             for (int i = 0; i < 16; i++)
             {
                 DUTProgrammers.Add(new MTKPSoCProgrammer(Logger));
                 if (CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerName[i] != "Configure...")
                 {
                     DUTProgrammers[i].SelectedProgrammer = CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerName[i];
+                    DUTProgrammers[i].SelectedVoltageSetting = CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerVoltage[i];
+                    DUTProgrammers[i].SelectedAquireMode = CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerPM[i];
+                    DUTProgrammers[i].SelectedConnectorType = int.Parse(CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerConn[i]);
+                    DUTProgrammers[i].SelectedClock = CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerClock[i];
+                    DUTProgrammers[i].StringToPA(CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerPA[i]);
+                    DUTProgrammers[i].ValidateAfterProgramming = bool.Parse(CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerVerify[i]);
+                    DUTProgrammers[i].SelectedHEXFilePath = CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerHexPath[i];
+                }
+                else if(config.AppSettings.Settings["ProgrammerAddress#"+(i+1).ToString()].Value != "Configure...")
+                {
+                    DUTProgrammers[i].SelectedProgrammer = config.AppSettings.Settings["ProgrammerAddress#" + (i + 1).ToString()].Value;
                     DUTProgrammers[i].SelectedVoltageSetting = CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerVoltage[i];
                     DUTProgrammers[i].SelectedAquireMode = CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerPM[i];
                     DUTProgrammers[i].SelectedConnectorType = int.Parse(CyBLE_MTK_Application.Properties.Settings.Default.DUTProgrammerConn[i]);
@@ -1379,8 +1392,8 @@ namespace CyBLE_MTK_Application
         private void ExitMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
-            Application.Exit();
-            System.Environment.Exit(0);
+            //Application.Exit();
+            //System.Environment.Exit(0);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -2848,6 +2861,7 @@ namespace CyBLE_MTK_Application
                 MTKTestCUS.TmplSFCSErrCode = 0;
 
 
+
                 for (int i = 0; i < (int)CyBLE_MTK_Application.Properties.Settings.Default.NumDUTs; i++)
                 {
                     ((DataGridViewDisableButtonCell)DUTInfoDataGridView["DUT Programmer", i]).Enabled = false;
@@ -2946,9 +2960,9 @@ namespace CyBLE_MTK_Application
 
                         //SerialPortPredefineMappingCheck
 
-                        CyBLE_MTK_Application.Properties.Settings.Default.Reset();
-                        CyBLE_MTK_Application.Properties.Settings.Default.Reload();
-                        CyBLE_MTK_Application.Properties.Settings.Default.Upgrade();
+                        //CyBLE_MTK_Application.Properties.Settings.Default.Reset();
+                        //CyBLE_MTK_Application.Properties.Settings.Default.Reload();
+                        //CyBLE_MTK_Application.Properties.Settings.Default.Upgrade();
 
                         if (CyBLE_MTK_Application.Properties.Settings.Default.EnableComPortsPredefineCheck)
                         {
@@ -2974,20 +2988,69 @@ namespace CyBLE_MTK_Application
                         DUTSerialNumbers.Clear();
                         DUTSerialPortsName.Clear();
 
+                        //if (shopfloor_permission == null || shopfloor_permission.Length != DUTInfoDataGridView.Rows.Count)
+                        //{
+                        //    shopfloor_permission = new bool[DUTInfoDataGridView.Rows.Count];
+                        //}
+
+                        //for (int i = 0; i < DUTInfoDataGridView.Rows.Count; i++)
+                        //{
+                        //    shopfloor_permission[i] = false;
+                        //}
+
+                        bool isSQLconnected = false;
                         try
                         {
-                            if (!CheckPemission())
+
+                            SFCS m_SFCS = SFCS.GetSFCS(Logger);
+
+                            if (CyBLEMTKRobotServer.gServer != null)
                             {
-                                StopTests();
-                                /*
-                                 * Continue here, otherwise have to pop an error dialog.
-                                 */
-                                //return;
+                                m_SFCS = CyBLEMTKRobotServer.gServer;
+                                CyBLEMTKRobotServer.gIsSupervisorMode = MTKTestProgram.SupervisorMode;
+                            }
+                            else
+                            {
+                                m_SFCS = SFCS.GetSFCS(Logger);
+                            }
+
+                            if (CheckSFCSConnection(m_SFCS))
+                            {
+                                isSQLconnected = true;
+                                Logger.PrintLog(this, "Check SFCS Connection Successfully.", LogDetailLevel.LogRelevant);
+                            }
+                            else
+                            {
+                                isSQLconnected = false;
+                                m_SFCS.LastError = "Fail to Connect Shopfloor...";
                             }
                         }
                         catch (Exception ex)
                         {
-                            //MessageBox.Show("Permisson error: " + ex.Message);
+
+                            MessageBox.Show("注意：Shopfloor SQL 服务器连接未成功！！！请检查！ \nReason: \n" + ex.ToString(), "Shopfloor SQL connection Error");
+                        }
+
+                        try
+                        {
+                            if (isSQLconnected)
+                            {
+                                if (!CheckPemission())
+                                {
+                                    StopTests();
+                                    /*
+                                     * Continue here, otherwise have to pop an error dialog.
+                                     */
+                                    //return;
+                                }
+                            }
+
+
+
+                        }
+                        catch (Exception ex)
+                        {
+                            
                         }
 
                     }
@@ -3022,6 +3085,8 @@ namespace CyBLE_MTK_Application
                 BackupAndApplyAppStatus("Running test program...");
             }
         }
+
+
 
 
 
@@ -3174,9 +3239,9 @@ namespace CyBLE_MTK_Application
 
                         //SerialPortPredefineMappingCheck
 
-                        CyBLE_MTK_Application.Properties.Settings.Default.Reset();
-                        CyBLE_MTK_Application.Properties.Settings.Default.Reload();
-                        CyBLE_MTK_Application.Properties.Settings.Default.Upgrade();
+                        //CyBLE_MTK_Application.Properties.Settings.Default.Reset();
+                        //CyBLE_MTK_Application.Properties.Settings.Default.Reload();
+                        //CyBLE_MTK_Application.Properties.Settings.Default.Upgrade();
 
                         if (CyBLE_MTK_Application.Properties.Settings.Default.EnableComPortsPredefineCheck)
                         {
@@ -3202,16 +3267,69 @@ namespace CyBLE_MTK_Application
                         DUTSerialNumbers.Clear();
                         DUTSerialPortsName.Clear();
 
+                        //if (shopfloor_permission == null || shopfloor_permission.Length != DUTInfoDataGridView.Rows.Count)
+                        //{
+                        //    shopfloor_permission = new bool[DUTInfoDataGridView.Rows.Count];
+                        //}
+
+                        ////for (int i = 0; i < DUTInfoDataGridView.Rows.Count; i++)
+                        ////{
+                        ////    shopfloor_permission[i] = false;
+                        ////}
+
+
+
                         try
                         {
-                            if (!CheckPemission())
+                            SFCS m_SFCS = SFCS.GetSFCS(Logger);
+
+                            if (CyBLEMTKRobotServer.gServer != null)
                             {
-                                StopTests();
+                                m_SFCS = CyBLEMTKRobotServer.gServer;
+                                CyBLEMTKRobotServer.gIsSupervisorMode = MTKTestProgram.SupervisorMode;
+                            }
+                            else
+                            {
+                                m_SFCS = SFCS.GetSFCS(Logger);
+                            }
+
+                            if (CheckSFCSConnection(m_SFCS))
+                            {
+                                m_SFCS.SqlConnected = true;
+                                Logger.PrintLog(this,m_SFCS.GetType() + ": Check SFCS Connection Successfully.",LogDetailLevel.LogRelevant);
+                            }
+                            else
+                            {
+                                m_SFCS.SqlConnected = false;
+                                m_SFCS.LastError = m_SFCS.GetType() + ": Fail to Connect Shopfloor...";
                             }
                         }
                         catch (Exception ex)
                         {
-                            //MessageBox.Show("Reason: " + ex.Message, "Permisson error");
+                            m_SFCS.SqlConnected = false;
+                            MessageBox.Show("注意：Shopfloor SQL 服务器连接未成功！！！请检查！ \nReason: \n" + ex.ToString(), "Shopfloor SQL connection Error");
+                        }
+
+                        try
+                        {
+                            if (m_SFCS.SqlConnected)
+                            {
+                                if (!CheckPemission())
+                                {
+                                    StopTests();
+                                    /*
+                                     * Continue here, otherwise have to pop an error dialog.
+                                     */
+                                    //return;
+                                }
+                            }
+
+
+
+                        }
+                        catch (Exception ex)
+                        {
+
                         }
                     }
 
@@ -3248,11 +3366,27 @@ namespace CyBLE_MTK_Application
             //}
         }
 
+        private bool CheckSFCSConnection(SFCS m_SFCS)
+        {
+            bool retVal = false;
 
 
 
+            Logger.PrintLog(this, m_SFCS.GetType() + ": CheckSFCSConnection is in progress...Please wait...", LogDetailLevel.LogRelevant);
 
 
+            if (m_SFCS.Connect())
+            {
+                retVal = true;
+            }
+            else
+            {
+                retVal = false;
+            }
+
+
+            return retVal;
+        }
 
         private void TestRunStopButton_TextChanged(object sender, EventArgs e)
         {
@@ -4036,9 +4170,9 @@ namespace CyBLE_MTK_Application
         public bool CheckPemission()
         {
             bool retVal = false;
-            CyBLE_MTK_Application.Properties.Settings.Default.Reset();
-            CyBLE_MTK_Application.Properties.Settings.Default.Reload();
-            CyBLE_MTK_Application.Properties.Settings.Default.Save();
+            //CyBLE_MTK_Application.Properties.Settings.Default.Reset();
+            //CyBLE_MTK_Application.Properties.Settings.Default.Reload();
+            //CyBLE_MTK_Application.Properties.Settings.Default.Save();
 
             string SFCSInterface = CyBLE_MTK_Application.Properties.Settings.Default.SFCSInterface;
 
@@ -4090,11 +4224,19 @@ namespace CyBLE_MTK_Application
                 {
                     
                     shopfloor_permission[dut_index] = true;
+                    Logger.PrintLog(this,$"DUT# {dut_index}: {SerialNumber} permission check info: {permission_info}",LogDetailLevel.LogRelevant);
                     retVal = true;
                 }
+                else
+                {
+                    shopfloor_permission[dut_index] = false;
+                    Logger.PrintLog(this, $"DUT# {dut_index}: {SerialNumber} permission check info: {permission_info}", LogDetailLevel.LogRelevant);
+                    retVal = false;
 
-                
-                
+                }
+
+
+
                 if (!shopfloor_permission[dut_index]&&(!DUTInfoDataGridView.Rows[i].Cells["Serial Port"].Value.ToString().Contains("Configure")))
                 {
                     //cysp: fixed the display issue which was feedback from SWJ 
@@ -4308,13 +4450,23 @@ namespace CyBLE_MTK_Application
 
                 //bool upload = m_SFCS.SFCS_UploadTestResult(SerialNumber, Model, TesterID, errorcode, socket_no, TestResult, "MTK", MFI_ID);
 
-                CyBLE_MTK_Application.Properties.Settings.Default.Reset();
-                CyBLE_MTK_Application.Properties.Settings.Default.Reload();
-                CyBLE_MTK_Application.Properties.Settings.Default.Save();
+                //CyBLE_MTK_Application.Properties.Settings.Default.Reset();
+                //CyBLE_MTK_Application.Properties.Settings.Default.Reload();
+                //CyBLE_MTK_Application.Properties.Settings.Default.Save();
 
-                bool upload = m_SFCS.UploadTestResult(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID);
-                //Logger.PrintLog(this, m_SFCS.GetType().ToString().Substring(22) + " UPLOAD INFO : " + "DUT#" + (i + 1).ToString() + "  SN: " + SerialNumber + "\tModel: " + Model + "\tTesterID: " + TesterID + "\tErrCode: " + errorcode.ToString("X4") + "\tSocket#: " + socket_no + "\tTestResult: " + DUTTestResultToShopfloor + "\t\tStationID: " + "MTK" + "\tMFI_ID: " + MFI_ID, LogDetailLevel.LogRelevant);
-                Logger.PrintLog(this, m_SFCS.GetType().ToString().Substring(22) + " UPLOAD INFO : " + "DUT#" + (i + 1).ToString() + "  SN: " + SerialNumber + "    \tModel: " + Model + "       \tTesterID: " + TesterID + "       \tErrCode: " + errorcode.ToString("X4") + "       \tTestResult: " + DUTTestResultToShopfloor, LogDetailLevel.LogRelevant);
+                if (m_SFCS.SqlConnected)
+                {
+                    bool upload = m_SFCS.UploadTestResult(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID);
+                    //Logger.PrintLog(this, m_SFCS.GetType().ToString().Substring(22) + " UPLOAD INFO : " + "DUT#" + (i + 1).ToString() + "  SN: " + SerialNumber + "\tModel: " + Model + "\tTesterID: " + TesterID + "\tErrCode: " + errorcode.ToString("X4") + "\tSocket#: " + socket_no + "\tTestResult: " + DUTTestResultToShopfloor + "\t\tStationID: " + "MTK" + "\tMFI_ID: " + MFI_ID, LogDetailLevel.LogRelevant);
+                    Logger.PrintLog(this, m_SFCS.GetType().ToString().Substring(22) + " UPLOAD INFO : " + "DUT#" + (i + 1).ToString() + "  SN: " + SerialNumber + "    \tModel: " + Model + "       \tTesterID: " + TesterID + "       \tErrCode: " + errorcode.ToString("X4") + "       \tTestResult: " + DUTTestResultToShopfloor, LogDetailLevel.LogRelevant);
+                }
+                else
+                {
+                    Logger.PrintLog(this, m_SFCS.GetType().ToString().Substring(22) + " SKIP TO UPLOAD INFO : " + "DUT#" + (i + 1).ToString() + "Due to Shopfloor SQL connection Not available. ", LogDetailLevel.LogRelevant);
+
+                }
+
+
 
 
                 #region ShopfloorSQLDatabase
@@ -4322,7 +4474,8 @@ namespace CyBLE_MTK_Application
                 {
                     if (mTKDB != null)
                     {
-                        MTKRecord record = FillinRecord(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID, LogWriteLine, "N/A");
+                        string remarks = CyBLE_MTK_Application.Properties.Settings.Default.DUTTestInfoRemarks;
+                        MTKRecord record = FillinRecord(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID, LogWriteLine, remarks);
                         ConfigMTKDB(mTKDB, record);
 
                         
@@ -4453,6 +4606,88 @@ namespace CyBLE_MTK_Application
         private void turnOffDBToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SwitchONOFFSQLDatabase(SQLDataBaseSwitchAction.TurnOff);
+        }
+
+        private void ProgAddrSave_Btn_Click(object sender, EventArgs e)
+        {
+
+            try
+            {
+                Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
+                this.DialogResult = MessageBox.Show(GetProgAddrSaveMessage(config), "Save current PSoC Programmer Address to File", MessageBoxButtons.OKCancel);
+
+
+                if (this.DialogResult == DialogResult.OK)
+                {
+
+                    Logger.PrintLog(this, "Save current PSoC Programmer Address to File Successfully.", LogDetailLevel.LogRelevant);
+                }
+                else
+                {
+                    for (int i = 0; i < 16; i++)
+                    {
+                        config.AppSettings.Settings["ProgrammerAddress#" + (i+1).ToString()].Value = "Configure...";
+                    }
+                    Logger.PrintLog(this, "Cancel to Save current PSoC Programmer Address to File.", LogDetailLevel.LogRelevant);
+                }
+
+                config.Save(ConfigurationSaveMode.Modified);
+
+                System.Configuration.ConfigurationManager.RefreshSection("appSettings");
+
+
+            }
+            catch (Exception ex)
+            {
+
+                Logger.PrintLog(this,"Exception from ProgAddrSave: \n" + ex.ToString(),LogDetailLevel.LogRelevant);
+            }
+
+
+
+        }
+
+        private string GetProgAddrSaveMessage(Configuration config)
+        {
+            List<string> configKeys = new List<string>();
+
+
+
+            string retVal = "Current PSoC Programmer Addresses: \n";
+
+            List<string> currentProgAddr = new List<string>();
+
+            int index = 0;
+            if (DUTProgrammers.Count > 0)
+            {
+                foreach (var item in DUTProgrammers.ToArray())
+                {
+                    currentProgAddr.Add(item.SelectedProgrammer);
+                    configKeys.Add("ProgrammerAddress#"+ (index+1).ToString());
+                    config.AppSettings.Settings[configKeys[index]].Value = currentProgAddr[index];
+                    index++;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    configKeys.Add("ProgrammerAddress#" + i.ToString());
+                    currentProgAddr.Add("Configure...");
+                    config.AppSettings.Settings[configKeys[i]].Value = currentProgAddr[i];
+                }
+            }
+
+            foreach (var item in currentProgAddr)
+            {
+                retVal += item + "\n";
+            }
+
+            retVal += "\n\nAction: Click OK button to save programmer addresses to AppSettings otherwise click cancel.";
+
+            return retVal;
+
         }
 
         private MTKRecord FillinRecord(string SerialNumber, string Model, string TesterID, UInt16 errorcode, string SocketId, string TestResult, string TestStation, string MFI_ID, string TestLog, string remarks)

@@ -72,6 +72,7 @@ namespace CyBLE_MTK_Application
             this.dmmSwitchSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.manufacturingModeConfigToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.startRobotServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pSoCProgrammerMagicToolToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.MTKStatStrip = new System.Windows.Forms.StatusStrip();
@@ -100,8 +101,9 @@ namespace CyBLE_MTK_Application
             this.DUTcontextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.setHexFileForAllDUTProgrammersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel11 = new System.Windows.Forms.TableLayoutPanel();
-            this.BDAWriteButton = new System.Windows.Forms.Button();
             this.BDAConfigLabel = new System.Windows.Forms.Label();
+            this.ProgAddrSave_Btn = new System.Windows.Forms.Button();
+            this.BDAWriteButton = new System.Windows.Forms.Button();
             this.tableLayoutPanel12 = new System.Windows.Forms.TableLayoutPanel();
             this.ConfigBDAButton = new System.Windows.Forms.Button();
             this.BDATextBox = new HexadecimalTextBoxControl.HexadecimalTextBox();
@@ -358,7 +360,8 @@ namespace CyBLE_MTK_Application
             this.dataStatisticsToolStripMenuItem,
             this.instrumentsToolStripMenuItem,
             this.manufacturingModeConfigToolStripMenuItem,
-            this.startRobotServerToolStripMenuItem});
+            this.startRobotServerToolStripMenuItem,
+            this.pSoCProgrammerMagicToolToolStripMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "&Tools";
@@ -414,6 +417,12 @@ namespace CyBLE_MTK_Application
             this.startRobotServerToolStripMenuItem.Size = new System.Drawing.Size(300, 22);
             this.startRobotServerToolStripMenuItem.Text = "StartRobotServer";
             this.startRobotServerToolStripMenuItem.Click += new System.EventHandler(this.startRobotServerToolStripMenuItem_Click);
+            // 
+            // pSoCProgrammerMagicToolToolStripMenuItem
+            // 
+            this.pSoCProgrammerMagicToolToolStripMenuItem.Name = "pSoCProgrammerMagicToolToolStripMenuItem";
+            this.pSoCProgrammerMagicToolToolStripMenuItem.Size = new System.Drawing.Size(300, 22);
+            this.pSoCProgrammerMagicToolToolStripMenuItem.Text = "PSoCProgrammer Magic Tool";
             // 
             // HelpMenuItem
             // 
@@ -528,14 +537,14 @@ namespace CyBLE_MTK_Application
             // turnOffDBToolStripMenuItem
             // 
             this.turnOffDBToolStripMenuItem.Name = "turnOffDBToolStripMenuItem";
-            this.turnOffDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.turnOffDBToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.turnOffDBToolStripMenuItem.Text = "Turn Off DB";
             this.turnOffDBToolStripMenuItem.Click += new System.EventHandler(this.turnOffDBToolStripMenuItem_Click);
             // 
             // turnOnDBToolStripMenuItem
             // 
             this.turnOnDBToolStripMenuItem.Name = "turnOnDBToolStripMenuItem";
-            this.turnOnDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.turnOnDBToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
             this.turnOnDBToolStripMenuItem.Text = "Turn On DB";
             this.turnOnDBToolStripMenuItem.Click += new System.EventHandler(this.turnOnDBToolStripMenuItem_Click);
             // 
@@ -717,19 +726,41 @@ namespace CyBLE_MTK_Application
             // 
             // tableLayoutPanel11
             // 
-            this.tableLayoutPanel11.ColumnCount = 2;
+            this.tableLayoutPanel11.ColumnCount = 3;
             this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 107F));
             this.tableLayoutPanel11.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 68F));
-            this.tableLayoutPanel11.Controls.Add(this.BDAWriteButton, 1, 0);
             this.tableLayoutPanel11.Controls.Add(this.BDAConfigLabel, 0, 0);
+            this.tableLayoutPanel11.Controls.Add(this.ProgAddrSave_Btn, 1, 0);
+            this.tableLayoutPanel11.Controls.Add(this.BDAWriteButton, 2, 0);
             this.tableLayoutPanel11.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel11.Location = new System.Drawing.Point(0, 28);
             this.tableLayoutPanel11.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel11.Name = "tableLayoutPanel11";
             this.tableLayoutPanel11.RowCount = 1;
             this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel11.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 28F));
             this.tableLayoutPanel11.Size = new System.Drawing.Size(475, 28);
             this.tableLayoutPanel11.TabIndex = 38;
+            // 
+            // BDAConfigLabel
+            // 
+            this.BDAConfigLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.BDAConfigLabel.AutoSize = true;
+            this.BDAConfigLabel.Location = new System.Drawing.Point(3, 7);
+            this.BDAConfigLabel.Name = "BDAConfigLabel";
+            this.BDAConfigLabel.Size = new System.Drawing.Size(0, 13);
+            this.BDAConfigLabel.TabIndex = 39;
+            // 
+            // ProgAddrSave_Btn
+            // 
+            this.ProgAddrSave_Btn.Location = new System.Drawing.Point(303, 3);
+            this.ProgAddrSave_Btn.Name = "ProgAddrSave_Btn";
+            this.ProgAddrSave_Btn.Size = new System.Drawing.Size(101, 22);
+            this.ProgAddrSave_Btn.TabIndex = 40;
+            this.ProgAddrSave_Btn.Text = "ProgAddrSave";
+            this.ProgAddrSave_Btn.UseVisualStyleBackColor = true;
+            this.ProgAddrSave_Btn.Click += new System.EventHandler(this.ProgAddrSave_Btn_Click);
             // 
             // BDAWriteButton
             // 
@@ -740,15 +771,6 @@ namespace CyBLE_MTK_Application
             this.BDAWriteButton.Text = "&Write";
             this.BDAWriteButton.UseVisualStyleBackColor = true;
             this.BDAWriteButton.Click += new System.EventHandler(this.BDAWriteButton_Click);
-            // 
-            // BDAConfigLabel
-            // 
-            this.BDAConfigLabel.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.BDAConfigLabel.AutoSize = true;
-            this.BDAConfigLabel.Location = new System.Drawing.Point(3, 7);
-            this.BDAConfigLabel.Name = "BDAConfigLabel";
-            this.BDAConfigLabel.Size = new System.Drawing.Size(0, 13);
-            this.BDAConfigLabel.TabIndex = 39;
             // 
             // tableLayoutPanel12
             // 
@@ -1134,6 +1156,8 @@ namespace CyBLE_MTK_Application
         private System.Windows.Forms.ToolStripSplitButton toolStripSplitButton1;
         private System.Windows.Forms.ToolStripMenuItem turnOffDBToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem turnOnDBToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pSoCProgrammerMagicToolToolStripMenuItem;
+        private System.Windows.Forms.Button ProgAddrSave_Btn;
     }
 }
 

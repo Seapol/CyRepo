@@ -553,5 +553,8 @@
     <Setting Name="SQLServerDatabaseTableName" Type="System.String" Scope="User">
       <Value Profile="(Default)">MTKTestInfo2019</Value>
     </Setting>
+    <Setting Name="DUTTestInfoRemarks" Type="System.String" Scope="User">
+      <Value Profile="(Default)">None</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

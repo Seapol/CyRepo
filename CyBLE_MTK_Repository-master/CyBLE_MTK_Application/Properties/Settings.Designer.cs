@@ -1455,5 +1455,17 @@ namespace CyBLE_MTK_Application.Properties {
                 this["SQLServerDatabaseTableName"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("None")]
+        public string DUTTestInfoRemarks {
+            get {
+                return ((string)(this["DUTTestInfoRemarks"]));
+            }
+            set {
+                this["DUTTestInfoRemarks"] = value;
+            }
+        }
     }
 }

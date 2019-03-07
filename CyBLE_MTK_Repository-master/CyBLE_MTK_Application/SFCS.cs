@@ -16,7 +16,16 @@ namespace CyBLE_MTK_Application
     public class SFCS
     {
         protected LogManager Log;
-        
+
+
+        private bool sqlconnected;
+
+        public bool SqlConnected
+        {
+            get { return sqlconnected; }
+            set { sqlconnected = value; }
+        }
+
 
         private string _LastError;
 
@@ -46,6 +55,11 @@ namespace CyBLE_MTK_Application
         public virtual string PermissonCheck(string SerialNumber, string Model, string WorkerID, string Station)
         {
             return "Virtual Permission Check but no directive object.";
+        }
+
+        public virtual bool Connect()
+        {
+            return false;
         }
 
         public virtual bool UploadTestResult(string SerialNumber, string Model, string TesterID, UInt16 errorcode, string SocketId, string TestResult, string TestStation, string MFI_ID)
@@ -143,15 +157,17 @@ namespace CyBLE_MTK_Application
         }
     }
 
+    
+
     public class SFCS_SIGMA : SFCS
     {
-        protected bool SqlConnected;
 
-        
+
 
         protected GeneralLinkSql.GeneralLinkSql SFCSconnection;
         protected GeneralLinkSqlLocal.GeneralLinkSqlLocal SFCSconnectionLocal;
 
+        
 
         public SFCS_SIGMA(LogManager Logger)
             : base(Logger)
@@ -166,7 +182,7 @@ namespace CyBLE_MTK_Application
         /// Setup connection to the SFCS traceability system.
         /// </summary>
         /// <returns></returns>true: sucessfully connected. false: failed to connect.
-        protected bool Connect()
+        public override bool Connect()
         {
 
 
@@ -497,6 +513,46 @@ namespace CyBLE_MTK_Application
             return "PASS: SFCSInterface is SFCS_FITTEC that doesn't have PermissonCheck";
 
 
+        }
+
+        public override bool Connect()
+        {
+
+            SqlConnection Con;
+            string adoCon;
+            string adoConEncrypted;
+            string sql;
+            string site;
+
+
+            try
+            {
+#if SAVE_AdoCon_In_AppSettings
+                site = ConfigurationManager.AppSettings["Site"];
+                //MessageBox.Show(site);
+                adoConEncrypted = ConfigurationManager.AppSettings["AdoCon"]
+#else
+                site = CyBLE_MTK_Application.Properties.Settings.Default.Site;
+                adoConEncrypted = CyBLE_MTK_Application.Properties.Settings.Default.AdoCon;
+#endif
+                adoCon = StrOperator.Decrypt(adoConEncrypted);
+                //MessageBox.Show(adoCon);
+                Con = new SqlConnection(adoCon);
+                Con.Open();
+
+                
+                
+                Con.Close();
+                SqlConnected = true;
+            }
+            catch (Exception ex)
+            {
+                SqlConnected = false;
+                LastError = "Failed to connect log server. (" + ex.Message + ")";
+                MessageBox.Show(LastError, "Shopfloor error");
+            }
+
+            return SqlConnected;
         }
 
     }
