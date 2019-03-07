@@ -537,14 +537,14 @@ namespace CyBLE_MTK_Application
             // turnOffDBToolStripMenuItem
             // 
             this.turnOffDBToolStripMenuItem.Name = "turnOffDBToolStripMenuItem";
-            this.turnOffDBToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.turnOffDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.turnOffDBToolStripMenuItem.Text = "Turn Off DB";
             this.turnOffDBToolStripMenuItem.Click += new System.EventHandler(this.turnOffDBToolStripMenuItem_Click);
             // 
             // turnOnDBToolStripMenuItem
             // 
             this.turnOnDBToolStripMenuItem.Name = "turnOnDBToolStripMenuItem";
-            this.turnOnDBToolStripMenuItem.Size = new System.Drawing.Size(137, 22);
+            this.turnOnDBToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.turnOnDBToolStripMenuItem.Text = "Turn On DB";
             this.turnOnDBToolStripMenuItem.Click += new System.EventHandler(this.turnOnDBToolStripMenuItem_Click);
             // 

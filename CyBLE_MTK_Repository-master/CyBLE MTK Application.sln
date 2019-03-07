@@ -4,6 +4,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.26430.6
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyBLE MTK Application", "CyBLE_MTK_Application\CyBLE MTK Application.csproj", "{2CECEAB8-8C5E-48A4-AD97-316D4B42B886}"
+	ProjectSection(ProjectDependencies) = postProject
+		{D72BE98C-B5A2-4321-93D8-19C775EBDD9A} = {D72BE98C-B5A2-4321-93D8-19C775EBDD9A}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HexadecimalTextBox", "HexadecimalTextBox\HexadecimalTextBox.csproj", "{D72BE98C-B5A2-4321-93D8-19C775EBDD9A}"
 EndProject
