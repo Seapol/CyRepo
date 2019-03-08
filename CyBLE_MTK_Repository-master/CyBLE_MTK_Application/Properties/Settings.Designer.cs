@@ -672,7 +672,7 @@ namespace CyBLE_MTK_Application.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("sigma")]
+        [global::System.Configuration.DefaultSettingValueAttribute("local")]
         public string SFCSInterface {
             get {
                 return ((string)(this["SFCSInterface"]));

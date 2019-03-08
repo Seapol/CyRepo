@@ -16,13 +16,20 @@ namespace CyBLE_MTK_Application
 
         }
 
+        public MicrosoftSQLDB() : base()
+        {
+
+        }
+
         protected override void ConnectionUsingConfig(SqlConnection connection)
         {
 
             switch (connection.State)
             {
                 case ConnectionState.Closed:
-                    ConnectionUsingDefaultConfig();
+                    ConnectionUsingAppConfig();
+                    //ConnectionUsingJsonConfig();
+                
                     break;
                 case ConnectionState.Open:
                     Console.WriteLine("Already Open " + ConnectionString);
@@ -35,7 +42,7 @@ namespace CyBLE_MTK_Application
                 case ConnectionState.Fetching:
                     break;
                 case ConnectionState.Broken:
-                    ConnectionUsingLocalConfig();
+                    //ConnectionUsingLocalConfig();
                     Console.WriteLine("Try " + ConnectionString + " because DBconnection is unreachable or broken.");
                     break;
                 default:
@@ -48,23 +55,32 @@ namespace CyBLE_MTK_Application
         protected override void ConnectionUsingConfig()
         {
 
-            ConnectionUsingDefaultConfig();
+            ConnectionUsingAppConfig();
+            //ConnectionUsingJsonConfig();
 
 
         }
 
-        private void ConnectionUsingDefaultConfig()
+        private void ConnectionUsingJsonConfig()
         {
             var configurationBuilder = new ConfigurationBuilder().AddJsonFile("connectionString.json");
             IConfiguration config = configurationBuilder.Build();
             ConnectionString = config["Data:DefaultConnection:SQLConnectionString"];
         }
 
-        private void ConnectionUsingLocalConfig()
+        private void ConnectionUsingAppConfig()
         {
-            var configurationBuilder = new ConfigurationBuilder().AddJsonFile("connectionString.json");
-            IConfiguration config = configurationBuilder.Build();
-            ConnectionString = config["Data:LocalConnection:SQLConnectionString"];
+            System.Configuration.Configuration config = System.Configuration.ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
+
+
+
+            ConnectionString = "Data Source=" + config.AppSettings.Settings["Data Source"].Value + ";" +
+                                "Initial Catalog=" + config.AppSettings.Settings["Initial Catalog"].Value + ";" +
+                                "Persist Security Info=" + config.AppSettings.Settings["Persist Security Info"].Value + ";" +
+                                "User ID=" + config.AppSettings.Settings["User ID"].Value + ";" +
+                                "Password=" + config.AppSettings.Settings["Password"].Value + ";" +
+                                "Connection Timeout=" + config.AppSettings.Settings["Connection Timeout"].Value;
+
         }
     }
 }

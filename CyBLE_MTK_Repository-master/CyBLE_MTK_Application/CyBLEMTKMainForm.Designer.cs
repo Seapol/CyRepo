@@ -558,8 +558,8 @@ namespace CyBLE_MTK_Application
             // 
             this.DataBaseStatus.Margin = new System.Windows.Forms.Padding(0, 3, 3, 2);
             this.DataBaseStatus.Name = "DataBaseStatus";
-            this.DataBaseStatus.Size = new System.Drawing.Size(28, 21);
-            this.DataBaseStatus.Text = "OFF";
+            this.DataBaseStatus.Size = new System.Drawing.Size(76, 21);
+            this.DataBaseStatus.Text = "TURNED OFF";
             // 
             // toolStripStatusLabel5
             // 

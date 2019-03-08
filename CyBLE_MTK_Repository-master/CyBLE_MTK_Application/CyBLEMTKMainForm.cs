@@ -473,7 +473,7 @@ namespace CyBLE_MTK_Application
 
                 DataBaseStatus.ForeColor = Color.Black;
                 DataBaseStatus.BackColor = Color.WhiteSmoke;
-                DataBaseStatus.Text = "OFF";
+                DataBaseStatus.Text = "TURNED OFF";
             }
 
 
@@ -4341,7 +4341,7 @@ namespace CyBLE_MTK_Application
                 {
                     this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
                     this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Green));
-                    this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Opened"));
+                    this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = mTKDB.DataSource + " Opened"));
 
                 }
                 else
@@ -4454,7 +4454,7 @@ namespace CyBLE_MTK_Application
                 //CyBLE_MTK_Application.Properties.Settings.Default.Reload();
                 //CyBLE_MTK_Application.Properties.Settings.Default.Save();
 
-                if (m_SFCS.SqlConnected)
+                if (m_SFCS.SqlConnected || SupervisorModeMenuItem.Checked || m_SFCS.GetType().ToString().ToUpper().Contains("LOCAL"))
                 {
                     bool upload = m_SFCS.UploadTestResult(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID);
                     //Logger.PrintLog(this, m_SFCS.GetType().ToString().Substring(22) + " UPLOAD INFO : " + "DUT#" + (i + 1).ToString() + "  SN: " + SerialNumber + "\tModel: " + Model + "\tTesterID: " + TesterID + "\tErrCode: " + errorcode.ToString("X4") + "\tSocket#: " + socket_no + "\tTestResult: " + DUTTestResultToShopfloor + "\t\tStationID: " + "MTK" + "\tMFI_ID: " + MFI_ID, LogDetailLevel.LogRelevant);
@@ -4484,7 +4484,7 @@ namespace CyBLE_MTK_Application
                         {
                             this.Invoke(new MethodInvoker(() => DataBaseStatus.ForeColor = Color.Black));
                             this.Invoke(new MethodInvoker(() => DataBaseStatus.BackColor = Color.Green));
-                            this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = "Opened"));
+                            this.Invoke(new MethodInvoker(() => DataBaseStatus.Text = mTKDB.DataSource + " Opened"));
 
                             mTKDB.DoWork(SQLAction.InsertRow);
 
@@ -4551,8 +4551,14 @@ namespace CyBLE_MTK_Application
 
         private void turnOnDBToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SwitchONOFFSQLDatabase(SQLDataBaseSwitchAction.TurnOn); 
+            SwitchONOFFSQLDatabase(SQLDataBaseSwitchAction.TurnOn);
+
+            SQLServerConnectionConfigurationDialog sQLServerConnectionConfigurationDialog = new SQLServerConnectionConfigurationDialog();
+
+            sQLServerConnectionConfigurationDialog.Show();
         }
+
+
 
         enum SQLDataBaseSwitchAction
         {
@@ -4592,7 +4598,7 @@ namespace CyBLE_MTK_Application
                         Logger.PrintLog(this, "SQLDataBaseSwitchAction is turned off successfully.", LogDetailLevel.LogRelevant);
                         DataBaseStatus.ForeColor = Color.Black;
                         DataBaseStatus.BackColor = Color.WhiteSmoke;
-                        DataBaseStatus.Text = "OFF";
+                        DataBaseStatus.Text = "TURNED OFF";
                         return false;
                     }
                     break;

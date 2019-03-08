@@ -64,12 +64,30 @@ namespace CyBLE_MTK_Application
             set { value_list = value; }
         }
 
+        private string datasource;
+
+        public string DataSource
+        {
+            get { return datasource; }
+            set { datasource = value; }
+        }
+
+
+
         LogManager Logger = new LogManager();
 
         public MTKDB(LogManager logger)
         {
             isOKOpen = false;
+            datasource = "None";
             Logger = logger;
+            InitDB();
+        }
+
+        public MTKDB()
+        {
+            isOKOpen = false;
+            datasource = "None";
             InitDB();
         }
 
@@ -89,12 +107,14 @@ namespace CyBLE_MTK_Application
                 else
                 {
                     isOKOpen = false;
+                    datasource = "None";
                 }
 
             }
             catch (Exception ex)
             {
                 isOKOpen = false;
+                datasource = "None";
                 Console.WriteLine("Exception from initDB: \n" + ex.ToString());
             }
         }
@@ -192,12 +212,14 @@ namespace CyBLE_MTK_Application
                     {
                         connection.Open();
                         isOKOpen = true;
+                        datasource = connection.DataSource;
                     }
                     catch (Exception)
                     {
                         Console.WriteLine("Fail to open DB connection. Timeout: {0} sec.", connection.ConnectionTimeout);
                         Logger.PrintLog(this, $"Fail to open DB {connection.Database} ({connection.DataSource}) connection. Timeout: {connection.ConnectionTimeout} sec.", LogDetailLevel.LogRelevant);
                         isOKOpen = false;
+                        datasource = "None";
                     }
 
 
@@ -257,12 +279,14 @@ namespace CyBLE_MTK_Application
                     if (connection.State != ConnectionState.Open)
                     {
                         isOKOpen = false;
+                        datasource = "None";
                         System.Threading.Thread.Sleep(WaitSleepTime);
                         connection.Open();
                     }
                     else
                     {
                         isOKOpen = true;
+                        datasource = connection.DataSource;
                         break;
                     }
                 }

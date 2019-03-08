@@ -1,9 +1,13 @@
 Release notes:
+2019-03-08 (v4.2.4)
+1.Move ConnectionString from JsonConfig to AppSettingsConfig so as to able to modify it in UI.
+2.SQLServerConnectionConfigurationDialog supports the above function.
+
 2019-02-21 (v4.2.3)
 1.Add AppSettings for PSoC Programmer Address Save.
 2.Add Connect() before PermissionCheck to save time for shopfloor access.
 
-2019-02-21 (v4.2.2)
+2019-03-06 (v4.2.2)
 1.Add UI buttion in the CyBLEMTKMainForm to switch on/off the SQLDatabaseEnable.
 
 2019-02-21 (v4.2.1)
