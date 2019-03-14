@@ -895,6 +895,7 @@ namespace CyBLE_MTK_Application
             try
             {
                 stopwatch.Restart();
+                Log.PrintLog(this, $"RunTestProgram StopWatch is started.", LogDetailLevel.LogRelevant);
             }
             catch (Exception ex)
             {
@@ -911,6 +912,7 @@ namespace CyBLE_MTK_Application
                 Log.PrintLog(this, "Selecting DUT " + (j + 1).ToString() + "/" +
                     NumIteration.ToString() + " for tests", LogDetailLevel.LogRelevant);
                 OnNextIteration(j);
+
 
                 if (CyBLE_MTK.DUTsTestFlag[j])
                 {
@@ -981,6 +983,8 @@ namespace CyBLE_MTK_Application
             try
             {
                 stopwatch.Stop();
+                TimeSpan ts = stopwatch.Elapsed;
+                Log.PrintLog(this,$"The last cycle run test program with {NumberOfDUTs} DUT(s) totally elasped: " + ts.ToString() + " secs.",LogDetailLevel.LogRelevant);
 
             }
             catch

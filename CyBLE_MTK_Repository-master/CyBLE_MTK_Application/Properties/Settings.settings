@@ -165,7 +165,7 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SFCSInterface" Type="System.String" Scope="User">
-      <Value Profile="(Default)">local</Value>
+      <Value Profile="(Default)">sigma</Value>
     </Setting>
     <Setting Name="Site" Type="System.String" Scope="User">
       <Value Profile="(Default)">S001</Value>

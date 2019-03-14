@@ -1180,7 +1180,12 @@ namespace CyBLE_MTK_Application
                 {
                     int Testno = j;
 
-                    if (MTKTestProgram.DUTOverallSFCSErrCode[DUTno] == ECCS.ERRORCODE_DUT_NOT_TEST)
+                    if (MTKTestProgram.DUTOverallSFCSErrCode[DUTno] == ECCS.ERRORCODE_SHOPFLOOR_PROCESS_ERROR)
+                    {
+                        TestStatusUpdate(Testno, MTKTestMessageType.Information, "Invalid");
+
+                    }
+                    else if (MTKTestProgram.DUTOverallSFCSErrCode[DUTno] == ECCS.ERRORCODE_DUT_NOT_TEST)
                     {
                         TestStatusUpdate(Testno, MTKTestMessageType.Information, "Ignored");
                         
@@ -1812,12 +1817,16 @@ namespace CyBLE_MTK_Application
         {
             if (this.InvokeRequired)
             {
-                SetVoidCallback d = new SetVoidCallback(this.HandleStop);
-                this.Invoke(d, null);
+                //SetVoidCallback d = new SetVoidCallback(this.HandleStop);
+                //this.Invoke(d, null);
+                this.Invoke(new MethodInvoker(() => HandleStop()));
+                //this.Invoke(new MethodInvoker(() => MTKTestProgram_OnTestStopped()));
+                
             }
             else
             {
                 HandleStop();
+                //MTKTestProgram_OnTestStopped();
             }
         }
 
@@ -2522,8 +2531,11 @@ namespace CyBLE_MTK_Application
                 }
                 else
                 {
-                    this.Invoke(new MethodInvoker(() => TestStatusLabel.ForeColor = Color.Green));
-                    this.Invoke(new MethodInvoker(() => TestStatusLabel.Text = "PASS"));
+                    if (MTKTestProgram.CurrentDUT == (DUTInfoDataGridView.RowCount-1))
+                    {
+                        this.Invoke(new MethodInvoker(() => TestStatusLabel.ForeColor = Color.Green));
+                        this.Invoke(new MethodInvoker(() => TestStatusLabel.Text = "PASS"));
+                    }
 
                 }
 
@@ -2555,8 +2567,12 @@ namespace CyBLE_MTK_Application
             }
             else
             {
-                this.Invoke(new MethodInvoker(() => TestStatusLabel.ForeColor = Color.Green));
-                this.Invoke(new MethodInvoker(() => TestStatusLabel.Text = "PASS"));
+                if (MTKTestProgram.CurrentDUT == (DUTInfoDataGridView.RowCount - 1))
+                {
+                    this.Invoke(new MethodInvoker(() => TestStatusLabel.ForeColor = Color.Green));
+                    this.Invoke(new MethodInvoker(() => TestStatusLabel.Text = "PASS"));
+                }
+
 
                 if (ProgramStatus[MTKTestProgram.CurrentDUT] == MTKTestError.NoError)
                 {
@@ -3004,15 +3020,7 @@ namespace CyBLE_MTK_Application
 
                             SFCS m_SFCS = SFCS.GetSFCS(Logger);
 
-                            if (CyBLEMTKRobotServer.gServer != null)
-                            {
-                                m_SFCS = CyBLEMTKRobotServer.gServer;
-                                CyBLEMTKRobotServer.gIsSupervisorMode = MTKTestProgram.SupervisorMode;
-                            }
-                            else
-                            {
-                                m_SFCS = SFCS.GetSFCS(Logger);
-                            }
+
 
                             if (CheckSFCSConnection(m_SFCS))
                             {
@@ -3023,6 +3031,16 @@ namespace CyBLE_MTK_Application
                             {
                                 isSQLconnected = false;
                                 m_SFCS.LastError = "Fail to Connect Shopfloor...";
+                            }
+
+                            if (CyBLEMTKRobotServer.gServer != null)
+                            {
+                                m_SFCS = CyBLEMTKRobotServer.gServer;
+                                CyBLEMTKRobotServer.gIsSupervisorMode = MTKTestProgram.SupervisorMode;
+                            }
+                            else
+                            {
+                                m_SFCS = SFCS.GetSFCS(Logger);
                             }
                         }
                         catch (Exception ex)
@@ -3037,12 +3055,55 @@ namespace CyBLE_MTK_Application
                             {
                                 if (!CheckPemission())
                                 {
+                                    if (MTKTestProgram.DUTOverallSFCSErrCode == null)
+                                    {
+                                        MTKTestProgram.DUTOverallSFCSErrCode = new UInt16[DUTInfoDataGridView.Rows.Count];
+                                        shopfloor_permission = new bool[DUTInfoDataGridView.Rows.Count];
+                                        for (int i = 0; i < DUTInfoDataGridView.Rows.Count; i++)
+                                        {
+                                            MTKTestProgram.DUTOverallSFCSErrCode[i] = ECCS.ERRORCODE_SHOPFLOOR_PROCESS_ERROR;
+                                            shopfloor_permission[i] = false;
+                                            ProgramStatus[i] = MTKTestError.UnknownError;
+                                        }
+                                    }
+
+
+
                                     StopTests();
+                                    UploadResult();
                                     /*
                                      * Continue here, otherwise have to pop an error dialog.
                                      */
                                     //return;
                                 }
+                                else
+                                {
+                                    MTKTestProgram.DUTProgrammers = DUTProgrammers;
+                                    MTKTestProgram.DUTSerialPorts = DUTSerialPorts;
+
+                                    TestThread = new Thread(() => MTKTestProgram.RunTestProgram(DUTInfoDataGridView.Rows.Count));
+                                    TestThread.Name = "RunTestProgram_" + DUTInfoDataGridView.Rows.Count.ToString() + "_" + RunCount.ToString();
+                                    TestThread.Start();
+                                }
+
+                            }
+                            else
+                            {
+                                if (MTKTestProgram.DUTOverallSFCSErrCode == null)
+                                {
+                                    MTKTestProgram.DUTOverallSFCSErrCode = new UInt16[DUTInfoDataGridView.Rows.Count];
+                                    shopfloor_permission = new bool[DUTInfoDataGridView.Rows.Count];
+
+                                    for (int i = 0; i < DUTInfoDataGridView.Rows.Count; i++)
+                                    {
+                                        MTKTestProgram.DUTOverallSFCSErrCode[i] = ECCS.ERRORCODE_SHOPFLOOR_PROCESS_ERROR;
+                                        shopfloor_permission[i] = false;
+                                        ProgramStatus[i] = MTKTestError.UnknownError;
+                                    }
+                                }
+
+                                StopTests();
+                                UploadResult();
                             }
 
 
@@ -3050,19 +3111,25 @@ namespace CyBLE_MTK_Application
                         }
                         catch (Exception ex)
                         {
-                            
+                            Logger.PrintLog(this,ex.ToString(),LogDetailLevel.LogRelevant);
                         }
 
                     }
+                    else
+                    {
+                        MTKTestProgram.DUTProgrammers = DUTProgrammers;
+                        MTKTestProgram.DUTSerialPorts = DUTSerialPorts;
 
-                    MTKTestProgram.DUTProgrammers = DUTProgrammers;
-                    MTKTestProgram.DUTSerialPorts = DUTSerialPorts;
+                        TestThread = new Thread(() => MTKTestProgram.RunTestProgram(DUTInfoDataGridView.Rows.Count));
+                        TestThread.Name = "RunTestProgram_" + DUTInfoDataGridView.Rows.Count.ToString() + "_" + RunCount.ToString();
+                        TestThread.Start();
+                    }
 
 
 
-                    TestThread = new Thread(() => MTKTestProgram.RunTestProgram(DUTInfoDataGridView.Rows.Count));
-                    TestThread.Name = "RunTestProgram_" + DUTInfoDataGridView.Rows.Count.ToString() + "_" + RunCount.ToString();
-                    TestThread.Start();
+
+
+
                 }
             }
             else if (TestRunStopButton.Text == "&Pause")
@@ -3277,13 +3344,26 @@ namespace CyBLE_MTK_Application
                         ////    shopfloor_permission[i] = false;
                         ////}
 
-
+                        bool isSQLconnected = false;
 
                         try
                         {
                             SFCS m_SFCS = SFCS.GetSFCS(Logger);
 
-                            if (CyBLEMTKRobotServer.gServer != null)
+
+
+                            if (CheckSFCSConnection(m_SFCS))
+                            {
+                                isSQLconnected = true;
+                                Logger.PrintLog(this,m_SFCS.GetType() + ": Check SFCS Connection Successfully.",LogDetailLevel.LogRelevant);
+                            }
+                            else
+                            {
+                                isSQLconnected = false;
+                                m_SFCS.LastError = m_SFCS.GetType() + ": Fail to Connect Shopfloor...";
+                            }
+
+                                                        if (CyBLEMTKRobotServer.gServer != null)
                             {
                                 m_SFCS = CyBLEMTKRobotServer.gServer;
                                 CyBLEMTKRobotServer.gIsSupervisorMode = MTKTestProgram.SupervisorMode;
@@ -3292,17 +3372,6 @@ namespace CyBLE_MTK_Application
                             {
                                 m_SFCS = SFCS.GetSFCS(Logger);
                             }
-
-                            if (CheckSFCSConnection(m_SFCS))
-                            {
-                                m_SFCS.SqlConnected = true;
-                                Logger.PrintLog(this,m_SFCS.GetType() + ": Check SFCS Connection Successfully.",LogDetailLevel.LogRelevant);
-                            }
-                            else
-                            {
-                                m_SFCS.SqlConnected = false;
-                                m_SFCS.LastError = m_SFCS.GetType() + ": Fail to Connect Shopfloor...";
-                            }
                         }
                         catch (Exception ex)
                         {
@@ -3310,18 +3379,62 @@ namespace CyBLE_MTK_Application
                             MessageBox.Show("注意：Shopfloor SQL 服务器连接未成功！！！请检查！ \nReason: \n" + ex.ToString(), "Shopfloor SQL connection Error");
                         }
 
+                        
                         try
                         {
-                            if (m_SFCS.SqlConnected)
+                            if (isSQLconnected)
                             {
                                 if (!CheckPemission())
                                 {
+                                    if (MTKTestProgram.DUTOverallSFCSErrCode == null)
+                                    {
+                                        MTKTestProgram.DUTOverallSFCSErrCode = new UInt16[DUTInfoDataGridView.Rows.Count];
+                                        shopfloor_permission = new bool[DUTInfoDataGridView.Rows.Count];
+                                        for (int i = 0; i < DUTInfoDataGridView.Rows.Count; i++)
+                                        {
+                                            MTKTestProgram.DUTOverallSFCSErrCode[i] = ECCS.ERRORCODE_SHOPFLOOR_PROCESS_ERROR;
+                                            shopfloor_permission[i] = false;
+                                            ProgramStatus[i] = MTKTestError.UnknownError;
+                                        }
+                                    }
+
+
+
                                     StopTests();
+                                    UploadResult();
                                     /*
                                      * Continue here, otherwise have to pop an error dialog.
                                      */
                                     //return;
                                 }
+                                else
+                                {
+                                    MTKTestProgram.DUTProgrammers = DUTProgrammers;
+                                    MTKTestProgram.DUTSerialPorts = DUTSerialPorts;
+
+                                    TestThread = new Thread(() => MTKTestProgram.RunTestProgram(DUTInfoDataGridView.Rows.Count));
+                                    TestThread.Name = "RunTestProgram_" + DUTInfoDataGridView.Rows.Count.ToString() + "_" + RunCount.ToString();
+                                    TestThread.Start();
+                                }
+
+                            }
+                            else
+                            {
+                                if (MTKTestProgram.DUTOverallSFCSErrCode == null)
+                                {
+                                    MTKTestProgram.DUTOverallSFCSErrCode = new UInt16[DUTInfoDataGridView.Rows.Count];
+                                    shopfloor_permission = new bool[DUTInfoDataGridView.Rows.Count];
+
+                                    for (int i = 0; i < DUTInfoDataGridView.Rows.Count; i++)
+                                    {
+                                        MTKTestProgram.DUTOverallSFCSErrCode[i] = ECCS.ERRORCODE_SHOPFLOOR_PROCESS_ERROR;
+                                        shopfloor_permission[i] = false;
+                                        ProgramStatus[i] = MTKTestError.UnknownError;
+                                    }
+                                }
+
+                                StopTests();
+                                UploadResult();
                             }
 
 
@@ -3329,20 +3442,20 @@ namespace CyBLE_MTK_Application
                         }
                         catch (Exception ex)
                         {
-
+                            Logger.PrintLog(this, ex.ToString(), LogDetailLevel.LogRelevant);
                         }
                     }
+                    else
+                    {
+                        MTKTestProgram.DUTProgrammers = DUTProgrammers;
+                        MTKTestProgram.DUTSerialPorts = DUTSerialPorts;
 
-                    MTKTestProgram.DUTProgrammers = DUTProgrammers;
-                    MTKTestProgram.DUTSerialPorts = DUTSerialPorts;
-
-                    //timer_cycleRunCount.Enabled = true;
-
-                    //timer_cycleRunCount.Start();
+                        TestThread = new Thread(() => MTKTestProgram.RunTestProgram(DUTInfoDataGridView.Rows.Count));
+                        TestThread.Name = "RunTestProgram_" + DUTInfoDataGridView.Rows.Count.ToString() + "_" + RunCount.ToString();
+                        TestThread.Start();
+                    }
 
 
-                    TestThread = new Thread(() => MTKTestProgram.RunTestProgram(DUTInfoDataGridView.Rows.Count));
-                    TestThread.Start();
                 }
             }
             //else if (TestRunStopButton.Text == "&Pause")
@@ -4438,7 +4551,7 @@ namespace CyBLE_MTK_Application
 
                 }
 
-                UpdateAllDutTestStatusAndOverallTestResultLabel(MTKTestProgram.DUTOverallSFCSErrCode, MTKTestProgramAll.MTKTestProgramAllTmplSFCSErrCodes, DUT_no);
+                //UpdateAllDutTestStatusAndOverallTestResultLabel(MTKTestProgram.DUTOverallSFCSErrCode, MTKTestProgramAll.MTKTestProgramAllTmplSFCSErrCodes, DUT_no);
 
                 ReminderErrorCodeFindingErrorButTestResultPass(MTKTestProgram.DUTOverallSFCSErrCode[DUT_no], DUTTestResultToShopfloor,DUT_no);
 
@@ -4454,7 +4567,7 @@ namespace CyBLE_MTK_Application
                 //CyBLE_MTK_Application.Properties.Settings.Default.Reload();
                 //CyBLE_MTK_Application.Properties.Settings.Default.Save();
 
-                if (m_SFCS.SqlConnected || SupervisorModeMenuItem.Checked || m_SFCS.GetType().ToString().ToUpper().Contains("LOCAL"))
+                if (m_SFCS.SqlConnected || SupervisorModeMenuItem.Checked || m_SFCS.GetType().ToString().ToUpper().Contains("ROBOTSERVER") || CyBLE_MTK_Application.Properties.Settings.Default.SFCSInterface.ToLower().Contains("local"))
                 {
                     bool upload = m_SFCS.UploadTestResult(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID);
                     //Logger.PrintLog(this, m_SFCS.GetType().ToString().Substring(22) + " UPLOAD INFO : " + "DUT#" + (i + 1).ToString() + "  SN: " + SerialNumber + "\tModel: " + Model + "\tTesterID: " + TesterID + "\tErrCode: " + errorcode.ToString("X4") + "\tSocket#: " + socket_no + "\tTestResult: " + DUTTestResultToShopfloor + "\t\tStationID: " + "MTK" + "\tMFI_ID: " + MFI_ID, LogDetailLevel.LogRelevant);
@@ -4462,7 +4575,7 @@ namespace CyBLE_MTK_Application
                 }
                 else
                 {
-                    Logger.PrintLog(this, m_SFCS.GetType().ToString().Substring(22) + " SKIP TO UPLOAD INFO : " + "DUT#" + (i + 1).ToString() + "Due to Shopfloor SQL connection Not available. ", LogDetailLevel.LogRelevant);
+                    Logger.PrintLog(this, m_SFCS.GetType().ToString().Substring(22) + " SKIP TO UPLOAD INFO : " + "DUT# " + (i + 1).ToString() + " Due to Shopfloor SQL connection Not available. ", LogDetailLevel.LogRelevant);
 
                 }
 

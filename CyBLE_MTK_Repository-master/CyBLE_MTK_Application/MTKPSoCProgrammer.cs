@@ -350,7 +350,7 @@ namespace CyBLE_MTK_Application
             if (portArray.Count() > 0)
             {
                 Log.PrintLog(this, "Discovered " + portArray.Count().ToString() +
-                    " programers.", LogDetailLevel.LogRelevant);
+                    " programmers.", LogDetailLevel.LogRelevant);
             }
 
             return portArray;
@@ -381,6 +381,7 @@ namespace CyBLE_MTK_Application
             Programmer.lib_SetProtocol(enumInterfaces.SWD);
             Programmer.lib_SetAutoReset(0x01);
             Programmer.lib_SetProtocolClock(enumFrequencies.FREQ_03_0);
+            //Programmer.lib_SetProtocolClock(enumFrequencies.FREQ_24_0);
             Programmer.lib_SetProtocolConnector(SelectedConnectorType); //0 -> 5-pins; 1 -> 10-pins;
             Programmer.lib_SetPartialProgram(true); //skips empty flash rows
 

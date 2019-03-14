@@ -40,7 +40,7 @@ namespace CyBLE_MTK_Application
 
         public override string GetDisplayText()
         {
-            return "STC: Packet Count:" + PacketCount.ToString() + " |DelayPerCommand: " + DelayPerCommand.ToString();
+            return "STC: Packet Count:" + PacketCount.ToString() + " | DelayPerCommand: " + DelayPerCommand.ToString();
         }
 
         public override string GetTestParameter(int TestParameterIndex)

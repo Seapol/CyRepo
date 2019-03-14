@@ -135,6 +135,12 @@ namespace CyBLE_MTK_Application
             
         }
 
+        public override bool Connect()
+        {
+            //SFCS.Connect() is always true
+            return true;
+        }
+
         public override bool UploadTestResult(string SerialNumber, string Model, string TesterID, UInt16 errorcode, string SocketId, string TestResult, string TestStation, string MFI_ID)
         {
 

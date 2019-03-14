@@ -1,4 +1,9 @@
 Release notes:
+2019-03-08 (v4.2.5)
+1.Add Timer for RunTestProgram to evaluate the cycle time for the batch of DUTs testing.
+2.TestStatusLabel only show PASS when the test program ran to the final DUT and final test and finally all passed.
+
+
 2019-03-08 (v4.2.4)
 1.Move ConnectionString from JsonConfig to AppSettingsConfig so as to able to modify it in UI.
 2.SQLServerConnectionConfigurationDialog supports the above function.
