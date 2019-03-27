@@ -37,7 +37,6 @@ namespace CyBLE_MTK_Application
         public static UInt16[] MTKTestProgramAllTmplSFCSErrCodes;
 
 
-
         private int _TestParameterCount;
         public int TestParameterCount
         {
@@ -426,6 +425,9 @@ namespace CyBLE_MTK_Application
     {
         MTKTestProgramAll,
         MTKTestCUS,
+        MTKTestCUSReadGPIO,
+        MTKTestCUSReadOpenGPIO,
+        MTKTestCUSReadFWVersion,
         MTKTestSTC,
         MTKTestDUTCurrentMeasure,
         MTKTestRBA,

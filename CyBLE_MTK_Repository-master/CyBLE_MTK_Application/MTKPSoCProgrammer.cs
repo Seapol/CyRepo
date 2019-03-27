@@ -18,6 +18,8 @@ namespace CyBLE_MTK_Application
 {
     public enum PSoCProgrammerAction { NoAction, Program, Erase};
 
+    
+
     public class MTKPSoCProgrammer : MTKTest
     {
         [DllImport("kernel32.dll")]
@@ -180,6 +182,9 @@ namespace CyBLE_MTK_Application
                 ProgrammerVersion = Programmer.Version();
                 IsCorrectVersion();
                 PSoCProgrammerInstalled = true;
+
+                MTKTestProgramAll.MTKTestProgramAllResult_appendText = "";
+
             }
             catch
             {
@@ -215,6 +220,17 @@ namespace CyBLE_MTK_Application
         void Event_AppendTextToLog(string action, string result, bool showTime)
         {
             Log.PrintLog(this, result, LogDetailLevel.LogRelevant);
+
+            if (result.Contains("Transfer rate") ||result.Contains("FAILED!"))
+            {
+                RecordResultToLog(result);
+            }
+
+        }
+
+        private void RecordResultToLog(string result)
+        {
+            MTKTestProgramAll.MTKTestProgramAllResult_appendText = result + "\n";
         }
 
         public override string GetDisplayText()

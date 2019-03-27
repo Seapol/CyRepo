@@ -239,23 +239,16 @@ namespace CyBLE_MTK_Application
                     switch (CustomCommand)
                     {
                         case CUSTOM_CMD_READ_GPIO:
-                            //TmplSFCSErrCode = ECCS.ERRORCODE_GPIO_CONTINUITY_TEST_FAIL;
+                            CurrentMTKTestType = MTKTestType.MTKTestCUSReadGPIO;
                             break;
                         case CUSTOM_CMD_READ_OPEN_GPIO:
-                            //TmplSFCSErrCode = ECCS.ERRORCODE_GPIO_OPENSHORTS_TEST_FAIL;
+                            CurrentMTKTestType = MTKTestType.MTKTestCUSReadOpenGPIO;
                             break;
                         case CUSTOM_CMD_READ_UNIQUE_ID:
-                            //TmplSFCSErrCode = ECCS.ERRORCODE_SILICON_UNIQUENUMBER_TEST_FAIL;
                             break;
-                        //case CUSTOM_CMD_READ_MFIID:
-                        //    TmplSFCSErrCode = ECCS.ERROR_CODE_READ_MFIID;
-                        //    break;
-                        //case CUSTOM_CMD_READ_FW_VERSION:
-                        //    TmplSFCSErrCode = SFCS.ERROR_CODE_FW_VERSION;
-                        //    break;
-                        //case CUSTOM_CMD_READ_HOMEKIT_SELFTEST_RESULT:
-                        //    TmplSFCSErrCode = SFCS.ERROR_CODE_APPLE_AUTO_CHIP;
-                        //    break;
+                        case CUSTOM_CMD_READ_FW_VERSION:
+                            CurrentMTKTestType = MTKTestType.MTKTestCUSReadFWVersion;
+                            break;
                     }
                     return true;
                 case 2:
@@ -512,6 +505,14 @@ namespace CyBLE_MTK_Application
                 {
                     this.Log.PrintLog(this, Command + ": No results returned from DUT.", LogDetailLevel.LogRelevant);
                     TestStatusUpdate(MTKTestMessageType.Failure, "FAIL");
+                    if (CurrentMTKTestType == MTKTestType.MTKTestCUSReadGPIO)
+                    {
+                        CyBLE_MTK.Result_CUSTOM_CMD_READ_GPIO_1[CurrentDUT] = Command + ": No results returned from DUT.";
+                    }
+                    else if (CurrentMTKTestType == MTKTestType.MTKTestCUSReadOpenGPIO)
+                    {
+                        CyBLE_MTK.Result_CUSTOM_CMD_READ_OPEN_GPIO_2[CurrentDUT] = Command + ": No results returned from DUT.";
+                    }
                     return MTKTestError.MissingDUT;
                 }
 
@@ -548,6 +549,14 @@ namespace CyBLE_MTK_Application
                         FailedOnce = true;
                         this.Log.PrintLog(this, int.Parse(CommandResults[i]).ToString("x2").ToUpper() + " " + OprationString(ResultOperation[i]) + " " + CustomCommandResult[i].ToString("x2").ToUpper() + ": FAIL", LogDetailLevel.LogEverything);
                         TempValue[(i * 4) + 3] = "FAIL";
+                        if (CurrentMTKTestType == MTKTestType.MTKTestCUSReadGPIO)
+                        {
+                            CyBLE_MTK.Result_CUSTOM_CMD_READ_GPIO_1[CurrentDUT] = $"Fault CusResult {i} : " + int.Parse(CommandResults[i]).ToString("x2").ToUpper() + " " + OprationString(ResultOperation[i]) + " " + CustomCommandResult[i].ToString("x2").ToUpper() + " ";
+                        }
+                        else if (CurrentMTKTestType == MTKTestType.MTKTestCUSReadOpenGPIO)
+                        {
+                            CyBLE_MTK.Result_CUSTOM_CMD_READ_OPEN_GPIO_2[CurrentDUT] = $"Fault CusResult {i} : " + int.Parse(CommandResults[i]).ToString("x2").ToUpper() + " " + OprationString(ResultOperation[i]) + " " + CustomCommandResult[i].ToString("x2").ToUpper() + " ";
+                        }
                     }
                     else
                     {
@@ -684,16 +693,22 @@ namespace CyBLE_MTK_Application
                 switch (CustomCommand)
                 {
                     case CUSTOM_CMD_READ_GPIO:
+                        CurrentMTKTestType = MTKTestType.MTKTestCUSReadGPIO;
                         TmplSFCSErrCode = (ECCS.ERRORCODE_GPIO_CONTINUITY_TEST_FAIL);
                         MTKTestTmplSFCSErrCode = ECCS.ERRORCODE_GPIO_CONTINUITY_TEST_FAIL;
                         break;
                     case CUSTOM_CMD_READ_OPEN_GPIO:
+                        CurrentMTKTestType = MTKTestType.MTKTestCUSReadGPIO;
                         TmplSFCSErrCode = (ECCS.ERRORCODE_GPIO_OPENSHORTS_TEST_FAIL);
                         MTKTestTmplSFCSErrCode = ECCS.ERRORCODE_GPIO_OPENSHORTS_TEST_FAIL;
                         break;
                     case CUSTOM_CMD_READ_UNIQUE_ID:
                         TmplSFCSErrCode = (ECCS.ERRORCODE_SILICON_UNIQUENUMBER_TEST_FAIL);
                         MTKTestTmplSFCSErrCode = ECCS.ERRORCODE_SILICON_UNIQUENUMBER_TEST_FAIL;
+                        break;
+                    case CUSTOM_CMD_READ_FW_VERSION:
+                        CurrentMTKTestType = MTKTestType.MTKTestCUSReadFWVersion;
+                        MTKTestTmplSFCSErrCode = ECCS.ERRORCODE_FW_INFORMATION_NOT_MATCH;
                         break;
                         //case CUSTOM_CMD_READ_MFIID:
                         //    TmplSFCSErrCode = ECCS.ERROR_CODE_READ_MFIID;
@@ -708,6 +723,20 @@ namespace CyBLE_MTK_Application
             }
             else
             {
+                switch (CustomCommand)
+                {
+                    case CUSTOM_CMD_READ_GPIO:
+                        CurrentMTKTestType = MTKTestType.MTKTestCUSReadGPIO;
+                        break;
+                    case CUSTOM_CMD_READ_OPEN_GPIO:
+                        CurrentMTKTestType = MTKTestType.MTKTestCUSReadOpenGPIO;
+                        break;
+                    case CUSTOM_CMD_READ_UNIQUE_ID:
+                        break;
+                    case CUSTOM_CMD_READ_FW_VERSION:
+                        CurrentMTKTestType = MTKTestType.MTKTestCUSReadFWVersion;
+                        break;
+                }
                 MTKTestTmplSFCSErrCode = ECCS.ERRORCODE_ALL_PASS;
             }
 
@@ -725,6 +754,21 @@ namespace CyBLE_MTK_Application
             MTKTestTmplSFCSErrCode = ECCS.ERRORCODE_CUS_TEST_FAILURE_BUT_UNKNOWN;
 
             CurrentMTKTestType = MTKTestType.MTKTestCUS;
+
+            switch (CustomCommand)
+            {
+                case CUSTOM_CMD_READ_GPIO:
+                    CurrentMTKTestType = MTKTestType.MTKTestCUSReadGPIO;
+                    break;
+                case CUSTOM_CMD_READ_OPEN_GPIO:
+                    CurrentMTKTestType = MTKTestType.MTKTestCUSReadOpenGPIO;
+                    break;
+                case CUSTOM_CMD_READ_UNIQUE_ID:
+                    break;
+                case CUSTOM_CMD_READ_FW_VERSION:
+                    CurrentMTKTestType = MTKTestType.MTKTestCUSReadFWVersion;
+                    break;
+            }
         }
     }
 }

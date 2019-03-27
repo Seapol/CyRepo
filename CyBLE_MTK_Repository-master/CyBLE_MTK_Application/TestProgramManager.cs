@@ -27,6 +27,8 @@ namespace CyBLE_MTK_Application
         public SerialPort DUTSerialPort;
         private EventWaitHandle PauseTestEvent;
         private static TestProgramState CurrentTestStatus;
+        public static string MTKTestResult_appendText = "";
+
 
         public List<MTKPSoCProgrammer> DUTProgrammers;
         public List<SerialPort> DUTSerialPorts;
@@ -637,8 +639,20 @@ namespace CyBLE_MTK_Application
 
         public MTKTestError RunTest(int TestIndex)
         {
+            Stopwatch runtest_stopwatch = new Stopwatch();
+
             Log.PrintLog(this, "Running test program " + (TestIndex + 1).ToString() + "/" +
                 TestProgram.Count.ToString(), LogDetailLevel.LogRelevant);
+
+            try
+            {
+                runtest_stopwatch.Restart();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
 
             TestProgram[TestIndex].UpdateDUTPort(DUTSerialPort);
             TestProgram[TestIndex].DUTConnectionMode = MTKTest.GetConnectionModeFromText(DUTConnectionType);
@@ -683,6 +697,10 @@ namespace CyBLE_MTK_Application
 
             MTKTestError RetVal;
 
+
+
+
+
             OnNextTest(TestIndex);
             if (TestType == "MTKPSoCProgrammer")
             {
@@ -699,6 +717,8 @@ namespace CyBLE_MTK_Application
             }
             else
             {
+
+
                 if (DUTSerialPorts[_CurrentDUT].IsOpen)
                 {
                     RetVal = TestProgram[TestIndex].RunTest();
@@ -709,7 +729,24 @@ namespace CyBLE_MTK_Application
                 }
             }
 
-            
+            runtest_stopwatch.Stop();
+
+            if (TestProgram[TestIndex].CurrentMTKTestType == MTKTestType.MTKTestSTC && RetVal != MTKTestError.IgnoringDUT)
+            {
+                CyBLE_MTK.STCTestCycleTime[CurrentDUT] = runtest_stopwatch.Elapsed.TotalSeconds + " secs";
+            }
+            else if (TestProgram[TestIndex].CurrentMTKTestType == MTKTestType.MTKTestCUSReadGPIO && RetVal != MTKTestError.IgnoringDUT)
+            {
+                CyBLE_MTK.Result_CUSTOM_CMD_READ_GPIO_1[CurrentDUT] = runtest_stopwatch.Elapsed.TotalSeconds + " secs";
+            }
+            else if (TestProgram[TestIndex].CurrentMTKTestType == MTKTestType.MTKTestCUSReadOpenGPIO && RetVal != MTKTestError.IgnoringDUT)
+            {
+                CyBLE_MTK.Result_CUSTOM_CMD_READ_OPEN_GPIO_2[CurrentDUT] = runtest_stopwatch.Elapsed.TotalSeconds + " secs";
+            }
+            else if (TestProgram[TestIndex].CurrentMTKTestType == MTKTestType.MTKTestCUSReadFWVersion && RetVal != MTKTestError.IgnoringDUT)
+            {
+                CyBLE_MTK.Result_CUSTOM_CMD_READ_FW_VERSION_11[CurrentDUT] = runtest_stopwatch.Elapsed.TotalSeconds + " secs";
+            }
 
             OnTestComplete();
             return RetVal;
@@ -969,7 +1006,19 @@ namespace CyBLE_MTK_Application
 
             }
 
+            try
+            {
+                stopwatch.Stop();
+                Log.PrintLog(this,$"The last cycle run test program with {NumberOfDUTs} DUT(s) totally elasped: " + stopwatch.Elapsed.TotalSeconds + " secs.",LogDetailLevel.LogRelevant);
 
+                CyBLE_MTK.TestProgramRunCycleTimeForBatch = stopwatch.Elapsed.TotalSeconds + " secs.";
+
+            }
+            catch
+            {
+                MessageBox.Show("Fail to stopwatch");
+
+            }
 
             SetDUTOverallSFCSErrCode();
 
@@ -980,18 +1029,7 @@ namespace CyBLE_MTK_Application
             _CurrentTestIndex = 0;
             CurrentTestStatus = TestProgramState.Stopped;
 
-            try
-            {
-                stopwatch.Stop();
-                TimeSpan ts = stopwatch.Elapsed;
-                Log.PrintLog(this,$"The last cycle run test program with {NumberOfDUTs} DUT(s) totally elasped: " + ts.ToString() + " secs.",LogDetailLevel.LogRelevant);
 
-            }
-            catch
-            {
-                MessageBox.Show("Fail to stopwatch");
-
-            }
 
 
         }

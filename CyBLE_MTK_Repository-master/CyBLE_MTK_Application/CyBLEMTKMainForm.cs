@@ -109,6 +109,16 @@ namespace CyBLE_MTK_Application
         public static int COUNT_ALL;
 
 
+        //To Support SQL Server
+        public static string PSoCProgrammingResultAtBegin = "--";
+        public static string PSoCProgrammingResultAtEnd = "--";
+        public static string[] STCTestCycleTime = new string[8];
+        public static string[] Result_CUSTOM_CMD_READ_GPIO_1 = new string[8];
+        public static string[] Result_CUSTOM_CMD_READ_OPEN_GPIO_2 = new string[8];
+        public static string[] Result_CUSTOM_CMD_READ_FW_VERSION_11 = new string[8];
+        public static string TestProgramRunCycleTimeForBatch = "--";
+
+
         //Find out the 1st row index of DUT
         public static int IndexConfiguredSerialPortfor1stRow = -1;
 
@@ -476,7 +486,20 @@ namespace CyBLE_MTK_Application
                 DataBaseStatus.Text = "TURNED OFF";
             }
 
+            ///Init SQL Parameters
+            ///
+            for (int i = 0; i < 8; i++)
+            {
 
+                STCTestCycleTime[i] = "--";
+                Result_CUSTOM_CMD_READ_GPIO_1[i] = "--";
+                Result_CUSTOM_CMD_READ_OPEN_GPIO_2[i] = "--";
+                Result_CUSTOM_CMD_READ_FW_VERSION_11[i] = "--";
+            }
+
+            PSoCProgrammingResultAtBegin = "--";
+            PSoCProgrammingResultAtEnd = "--";
+            TestProgramRunCycleTimeForBatch = "--";
         }
 
         /// <summary>
@@ -4193,7 +4216,8 @@ namespace CyBLE_MTK_Application
                     }
                     else
                     {
-                        DUTInfoDataGridView.Rows[i].Cells["Unique ID"].Value = "";
+                        DUTInfoDataGridView.Rows[i].Cells["Unique ID"].Value = CyBLEMTKRobotServer.gServer.PendingDUTInfos[i + 1].SerialNumber;
+                        //DUTInfoDataGridView.Rows[i].Cells["Unique ID"].Value = "";
                         DUTsTestFlag[i] = false;
                     }
 
@@ -4588,7 +4612,8 @@ namespace CyBLE_MTK_Application
                     if (mTKDB != null)
                     {
                         string remarks = CyBLE_MTK_Application.Properties.Settings.Default.DUTTestInfoRemarks;
-                        MTKRecord record = FillinRecord(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID, LogWriteLine, remarks);
+                        //MTKRecord record = FillinRecord(SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID, LogWriteLine, remarks);
+                        MTKRecord record = FillinRecord(DUT_no, SerialNumber, Model, TesterID, errorcode, socket_no, DUTTestResultToShopfloor, "MTK", MFI_ID, "See DUTTestLog File", remarks);
                         ConfigMTKDB(mTKDB, record);
 
                         
@@ -4654,12 +4679,16 @@ namespace CyBLE_MTK_Application
             mTKDB.Column_list = nameof(record.Serial_NO) + "," + nameof(record.Model_Name) + "," + nameof(record.Test_Mstation)
                 + "," + nameof(record.Test_Code) + "," + nameof(record.TesterID) + "," + nameof(record.SocketNo) + "," + nameof(record.MFI_ID)
                 + "," + nameof(record.Test_Log) + "," + nameof(record.Test_Result) + "," + nameof(record.Remarks) + "," + nameof(record.Test_Date)
-                + "," + nameof(record.Test_Time) + "," + nameof(record.Test_HourCntOfDay);
+                + "," + nameof(record.Test_Time) + "," + nameof(record.Test_HourCntOfDay)
+                + "," + nameof(record.PSoCProgrammingResultAtBegin) + "," + nameof(record.PSoCProgrammingResultAtEnd) + "," + nameof(record.STCTestCycleTime) + "," + nameof(record.CUSTOM_CMD_READ_GPIO_1)
+                + "," + nameof(record.CUSTOM_CMD_READ_OPEN_GPIO_2) + "," + nameof(record.CUSTOM_CMD_READ_FW_VERSION_11) + "," + nameof(record.TestProgramRunCycleTimeForBatch);
 
             mTKDB.Value_list = "'" + record.Serial_NO + "'" + "," + "'" + record.Model_Name + "'" + "," + "'" + record.Test_Mstation
                 + "'" + "," + "'" + record.Test_Code + "'" + "," + "'" + record.TesterID + "'" + "," + "'" + record.SocketNo + "'" + "," + "'" + record.MFI_ID + "'"
                 + "," + "'" + record.Test_Log + "'" + "," + "'" + record.Test_Result + "'" + "," + "'" + record.Remarks + "'" + "," + "'" + record.Test_Date + "'"
-                + "," + "'" + record.Test_Time + "'" + "," + "'" + record.Test_HourCntOfDay + "'";
+                + "," + "'" + record.Test_Time + "'" + "," + "'" + record.Test_HourCntOfDay + "'"
+                + "," + "'" + record.PSoCProgrammingResultAtBegin + "'" + "," + "'" + record.PSoCProgrammingResultAtEnd + "'" + "," + "'" + record.STCTestCycleTime + "'" + "," + "'" + record.CUSTOM_CMD_READ_GPIO_1 + "'"
+                + "," + "'" + record.CUSTOM_CMD_READ_OPEN_GPIO_2 + "'" + "," + "'" + record.CUSTOM_CMD_READ_FW_VERSION_11 + "'" + "," + "'" + record.TestProgramRunCycleTimeForBatch + "'";
         }
 
         private void turnOnDBToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4809,7 +4838,7 @@ namespace CyBLE_MTK_Application
 
         }
 
-        private MTKRecord FillinRecord(string SerialNumber, string Model, string TesterID, UInt16 errorcode, string SocketId, string TestResult, string TestStation, string MFI_ID, string TestLog, string remarks)
+        private MTKRecord FillinRecord(int CurrentDUT, string SerialNumber, string Model, string TesterID, UInt16 errorcode, string SocketId, string TestResult, string TestStation, string MFI_ID, string TestLog, string remarks)
         {
             MTKRecord record = new MTKRecord();
             record.Serial_NO = SerialNumber;
@@ -4825,6 +4854,35 @@ namespace CyBLE_MTK_Application
             record.Test_Date = System.DateTime.Now.Date.ToShortDateString();
             record.Test_Time = System.DateTime.Now.ToString("hh:mm:ss");
             record.Test_HourCntOfDay = System.DateTime.Now.Hour;
+
+            if (ProgAllErr[CurrentDUT] == MTKTestError.NoError)
+            {
+                record.PSoCProgrammingResultAtBegin = PSoCProgrammingResultAtBegin;
+                record.PSoCProgrammingResultAtEnd = PSoCProgrammingResultAtEnd;
+            }
+            else
+            {
+                if (ProgAllErr[CurrentDUT] == MTKTestError.IgnoringDUT || ProgAllErr[CurrentDUT] == MTKTestError.ProgrammerNotConfigured || !DUTsTestFlag[CurrentDUT])
+                {
+                    record.PSoCProgrammingResultAtBegin = "ProgrammAtBegin IGNORE!";
+                    record.PSoCProgrammingResultAtEnd = $"DUT#{CurrentDUT}: UART Capture Dump ignored.";
+                }
+                else
+                {
+                    record.PSoCProgrammingResultAtBegin = "ProgrammAtBegin FAILED!";
+                    record.PSoCProgrammingResultAtEnd = $"DUT#{CurrentDUT}: UART Capture Dump failure.";
+                }
+                
+            }
+
+            
+            record.STCTestCycleTime = STCTestCycleTime[CurrentDUT];
+            record.CUSTOM_CMD_READ_GPIO_1 = Result_CUSTOM_CMD_READ_GPIO_1[CurrentDUT];
+            record.CUSTOM_CMD_READ_OPEN_GPIO_2 = Result_CUSTOM_CMD_READ_OPEN_GPIO_2[CurrentDUT];
+            record.CUSTOM_CMD_READ_FW_VERSION_11 = Result_CUSTOM_CMD_READ_FW_VERSION_11[CurrentDUT];
+            record.TestProgramRunCycleTimeForBatch = TestProgramRunCycleTimeForBatch;
+
+
 
             return record;
         }

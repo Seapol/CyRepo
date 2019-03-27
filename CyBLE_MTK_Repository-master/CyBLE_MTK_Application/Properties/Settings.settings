@@ -159,13 +159,13 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TestModeLongRun" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">0</Value>
+      <Value Profile="(Default)">100</Value>
     </Setting>
     <Setting Name="EnableComPortsPredefineCheck" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SFCSInterface" Type="System.String" Scope="User">
-      <Value Profile="(Default)">sigma</Value>
+      <Value Profile="(Default)">local</Value>
     </Setting>
     <Setting Name="Site" Type="System.String" Scope="User">
       <Value Profile="(Default)">S001</Value>
@@ -551,7 +551,7 @@
 &lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="SQLServerDatabaseTableName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">MTKTestInfo2019</Value>
+      <Value Profile="(Default)">MTKTestInfo2019_R01</Value>
     </Setting>
     <Setting Name="DUTTestInfoRemarks" Type="System.String" Scope="User">
       <Value Profile="(Default)">None</Value>

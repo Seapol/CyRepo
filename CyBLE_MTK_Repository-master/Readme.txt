@@ -1,4 +1,28 @@
 Release notes:
+2019-03-15 (v4.3.0)
+1.Extend storing data in SQL Server as below
+CREATE TABLE [dbo].[MTKTestInfo2019_R01](
+	[Serial_NO] [nvarchar](50) NOT NULL,
+	[Model_Name] [nvarchar](50) NOT NULL,
+	[Test_Mstation] [nvarchar](50) NOT NULL,
+	[Test_Code] [int] NOT NULL,
+	[TesterID] [nvarchar](50) NOT NULL,
+	[SocketNo] [nvarchar](50) NOT NULL,
+	[MFI_ID] [nvarchar](50) NULL,
+	[Test_Log] [nvarchar](MAX) NULL,
+	[Test_Result] [nvarchar](50) NOT NULL,
+	[Remarks] [nvarchar](50) NULL,
+	[Test_Date] [date] NOT NULL,
+	[Test_Time] [time](7) NOT NULL,
+	[Test_HourCntOfDay] [int] NOT NULL,
+	[PSoCProgrammingResultAtBegin] [nvarchar](50) NULL,
+    [PSoCProgrammingResultAtEnd] [nvarchar](50) NULL,
+    [STCTestCycleTime][nvarchar](10) NULL,
+    [CUSTOM_CMD_READ_GPIO_1][nvarchar](50) NULL,
+    [CUSTOM_CMD_READ_OPEN_GPIO_2][nvarchar](50) NULL,
+    [CUSTOM_CMD_READ_FW_VERSION_11][nvarchar](50) NULL,
+    [TestProgramRunCycleTimeForBatch][nvarchar](10) NULL,
+
 2019-03-08 (v4.2.5)
 1.Add Timer for RunTestProgram to evaluate the cycle time for the batch of DUTs testing.
 2.TestStatusLabel only show PASS when the test program ran to the final DUT and final test and finally all passed.

@@ -648,7 +648,7 @@ namespace CyBLE_MTK_Application.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
         public int TestModeLongRun {
             get {
                 return ((int)(this["TestModeLongRun"]));
@@ -672,7 +672,7 @@ namespace CyBLE_MTK_Application.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("sigma")]
+        [global::System.Configuration.DefaultSettingValueAttribute("local")]
         public string SFCSInterface {
             get {
                 return ((string)(this["SFCSInterface"]));
@@ -1446,7 +1446,7 @@ namespace CyBLE_MTK_Application.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MTKTestInfo2019")]
+        [global::System.Configuration.DefaultSettingValueAttribute("MTKTestInfo2019_R01")]
         public string SQLServerDatabaseTableName {
             get {
                 return ((string)(this["SQLServerDatabaseTableName"]));

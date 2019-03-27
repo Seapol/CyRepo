@@ -314,6 +314,7 @@ namespace CyBLE_MTK_Application
                 RetVal = MTKTestError.TestFailed;
                 TestResult.Result = "FAIL";
                 this.Log.PrintLog(this, "Result: FAIL", LogDetailLevel.LogRelevant);
+
             }
 
             ////  Command #5

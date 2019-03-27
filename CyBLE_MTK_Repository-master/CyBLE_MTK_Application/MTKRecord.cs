@@ -20,6 +20,14 @@ namespace CyBLE_MTK_Application
         public string Test_Date;
         public string Test_Time;
         public int Test_HourCntOfDay;
+        public string PSoCProgrammingResultAtBegin;
+        public string PSoCProgrammingResultAtEnd;
+        public string STCTestCycleTime;
+        public string CUSTOM_CMD_READ_GPIO_1;
+        public string CUSTOM_CMD_READ_OPEN_GPIO_2;
+        public string CUSTOM_CMD_READ_FW_VERSION_11;
+        public string TestProgramRunCycleTimeForBatch;
+
 
     }
 }

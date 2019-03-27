@@ -18,6 +18,9 @@ namespace CyBLE_MTK_Application
         public static bool MTKTestProgramAllAtEnd = false;
         public string SelectedHEXFilePath;
 
+        public static string MTKTestProgramAllResult_appendText = "";
+
+
         //public string[] ErrCodes_Tmpl_for_Allprogram;
 
         //public List<SerialPort> DUTSerialPorts;
@@ -84,6 +87,8 @@ namespace CyBLE_MTK_Application
             TestParameterCount = 17;
             NumberOfDUTs = 0;
             CurrentDUT = 0;
+
+            MTKTestProgramAllResult_appendText = "";
 
         }
 
@@ -332,6 +337,8 @@ namespace CyBLE_MTK_Application
 
                 Log.PrintLog(this, "DUT#" + (DeviceCount+1).ToString() + ": UART Capture Dump: " + ReceivedEvent, LogDetailLevel.LogRelevant);
 
+                CyBLE_MTK.PSoCProgrammingResultAtEnd = ReceivedEvent;
+
                 char[] DelimiterChars = { ',', '\r', '\n' };
                 string[] RxEventSplit = ReceivedEvent.Split(DelimiterChars);
 
@@ -540,6 +547,15 @@ namespace CyBLE_MTK_Application
 
             OnProgramAllComplete(ErrDUT);
             programCompleted = true;
+
+            if (!ProgramAllAtEnd)
+            {
+                CyBLE_MTK.PSoCProgrammingResultAtBegin = MTKTestProgramAllResult_appendText;
+            }
+            //else
+            //{
+            //    CyBLE_MTK.PSoCProgrammingResultAtEnd = MTKTestProgramAllResult_appendText;
+            //}
 
             return return_value;
         }
