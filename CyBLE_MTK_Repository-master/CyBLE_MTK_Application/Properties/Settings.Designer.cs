@@ -648,7 +648,7 @@ namespace CyBLE_MTK_Application.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int TestModeLongRun {
             get {
                 return ((int)(this["TestModeLongRun"]));
@@ -1441,18 +1441,6 @@ namespace CyBLE_MTK_Application.Properties {
             }
             set {
                 this["DUTPredefinedSerialPorts"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("MTKTestInfo2019_R01")]
-        public string SQLServerDatabaseTableName {
-            get {
-                return ((string)(this["SQLServerDatabaseTableName"]));
-            }
-            set {
-                this["SQLServerDatabaseTableName"] = value;
             }
         }
         

@@ -35,6 +35,7 @@ namespace CyBLE_MTK_Application
             this.UserIDtextBox.Text = config.AppSettings.Settings["User ID"].Value;
             this.PasswordtextBox.Text = config.AppSettings.Settings["Password"].Value;
             this.ConnectionTimeoutnumericUpDown.Text = config.AppSettings.Settings["Connection Timeout"].Value;
+            this.TableNametextBox.Text = config.AppSettings.Settings["Table Name"].Value;
 
         }
 
@@ -56,6 +57,7 @@ namespace CyBLE_MTK_Application
             config.AppSettings.Settings["User ID"].Value = this.UserIDtextBox.Text;
             config.AppSettings.Settings["Password"].Value = this.PasswordtextBox.Text;
             config.AppSettings.Settings["Connection Timeout"].Value = this.ConnectionTimeoutnumericUpDown.Text;
+            config.AppSettings.Settings["Table Name"].Value = this.TableNametextBox.Text;
 
             config.Save(ConfigurationSaveMode.Modified);
 
@@ -79,7 +81,7 @@ namespace CyBLE_MTK_Application
             try
             {
                 SQLDB = new MicrosoftSQLDB();
-                SQLDB.TableName = CyBLE_MTK_Application.Properties.Settings.Default.SQLServerDatabaseTableName;
+                SQLDB.TableName = this.TableNametextBox.Text;
                 SQLDB.DoWork(SQLAction.GetRowCnt);
             }
             catch (Exception ex)

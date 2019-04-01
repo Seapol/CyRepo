@@ -4473,6 +4473,7 @@ namespace CyBLE_MTK_Application
             if (CyBLE_MTK_Application.Properties.Settings.Default.SQLServerDataBaseEnable && SQLDataBaseIsTurnedOn)
             {
                 mTKDB = new MicrosoftSQLDB(Logger);
+                Configuration AppSettingsconfig = System.Configuration.ConfigurationManager.OpenExeConfiguration(System.Configuration.ConfigurationUserLevel.None);
 
                 if (mTKDB.IsOKOpen)
                 {
@@ -4491,7 +4492,7 @@ namespace CyBLE_MTK_Application
 
                 if (mTKDB != null)
                 {
-                    mTKDB.TableName = CyBLE_MTK_Application.Properties.Settings.Default.SQLServerDatabaseTableName;
+                    mTKDB.TableName = AppSettingsconfig.AppSettings.Settings["Table Name"].Value;
                 }
 
 
@@ -4844,7 +4845,7 @@ namespace CyBLE_MTK_Application
             record.Serial_NO = SerialNumber;
             record.Model_Name = Model;
             record.Test_Mstation = TestStation;
-            record.Test_Code = errorcode;
+            record.Test_Code = errorcode.ToString("X4");
             record.TesterID = TesterID;
             record.SocketNo = SocketId;
             record.MFI_ID = MFI_ID;

@@ -1,4 +1,8 @@
 Release notes:
+2019-04-01 (v4.3.1)
+1.Change MTKRecord.Test_Code from int to string
+2.More SQL DB Table name to <add key="Table Name" value="MTKTestInfo2019_R01" />
+
 2019-03-15 (v4.3.0)
 1.Extend storing data in SQL Server as below
 CREATE TABLE [dbo].[MTKTestInfo2019_R01](

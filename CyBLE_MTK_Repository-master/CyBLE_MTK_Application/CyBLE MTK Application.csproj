@@ -64,7 +64,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\CyBLE_MTK_Release_4.3.0_CYBLE-012011-00\</OutputPath>
+    <OutputPath>bin\CyBLE_MTK_Release_4.3.1_CYBLE-012011-00\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>

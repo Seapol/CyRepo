@@ -159,7 +159,7 @@
       <Value Profile="(Default)" />
     </Setting>
     <Setting Name="TestModeLongRun" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">100</Value>
+      <Value Profile="(Default)">0</Value>
     </Setting>
     <Setting Name="EnableComPortsPredefineCheck" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">True</Value>
@@ -549,9 +549,6 @@
   &lt;string&gt;Com20&lt;/string&gt;
   &lt;string&gt;Com21&lt;/string&gt;
 &lt;/ArrayOfString&gt;</Value>
-    </Setting>
-    <Setting Name="SQLServerDatabaseTableName" Type="System.String" Scope="User">
-      <Value Profile="(Default)">MTKTestInfo2019_R01</Value>
     </Setting>
     <Setting Name="DUTTestInfoRemarks" Type="System.String" Scope="User">
       <Value Profile="(Default)">None</Value>

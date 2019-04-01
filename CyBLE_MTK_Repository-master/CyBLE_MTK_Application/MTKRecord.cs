@@ -10,7 +10,7 @@ namespace CyBLE_MTK_Application
         public string Serial_NO;
         public string Model_Name;
         public string Test_Mstation;
-        public int Test_Code;
+        public string Test_Code;
         public string TesterID;
         public string SocketNo;
         public string MFI_ID;
