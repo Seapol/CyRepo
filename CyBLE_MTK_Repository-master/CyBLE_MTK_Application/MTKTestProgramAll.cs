@@ -85,7 +85,7 @@ namespace CyBLE_MTK_Application
             UARTCaptureDelay = 50;
             programCompleted = false;
             TestParameterCount = 17;
-            NumberOfDUTs = 0;
+            NumberOfDUTs = TestProgramManager.NumberOfDUTs;
             CurrentDUT = 0;
 
             MTKTestProgramAllResult_appendText = "";
@@ -250,51 +250,27 @@ namespace CyBLE_MTK_Application
             {
                 InitializeTestResult();
                 programCompleted = false;
+                ProgramAll();
+
+                TestResult.Result = "DONE";
+                TestResultUpdate(TestResult);
+                TestStatusUpdate(MTKTestMessageType.Complete, "DONE");
             }
             //ProgramAllAtEnd == true : End
             if ((ProgramAllAtEnd == true) && (CurrentDUT == CyBLE_MTK.IndexConfiguredSerialPortforfinalRow))
             {
                 InitializeTestResult();
                 programCompleted = false;
-            }
-
-
-            
-            if (programCompleted == false)
-            {
-
                 ProgramAll();
-
 
                 TestResult.Result = "DONE";
                 TestResultUpdate(TestResult);
                 TestStatusUpdate(MTKTestMessageType.Complete, "DONE");
-
-
-
-
-                //if (!ProgramAll())
-                //{
-                //    //return_value = MTKTestError.NotAllDevicesProgrammed;
-                //    //TestResult.Result = "FAIL";
-                //    //TestResultUpdate(TestResult);
-                //    //TestStatusUpdate(MTKTestMessageType.Failure, "FAIL");
-                //}
-                //else
-                //{
-                //    TestResult.Result = "DONE";
-                //    TestResultUpdate(TestResult);
-                //    TestStatusUpdate(MTKTestMessageType.Complete, "DONE");
-                //}
-
             }
-            //else
-            //{
-            //    InitializeTestResult();
-            //    TestResult.Result = "DONE";
-            //    TestResultUpdate(TestResult);
-            //    TestStatusUpdate(MTKTestMessageType.Complete, "DONE");
-            //}
+
+
+            
+           
 
 
 

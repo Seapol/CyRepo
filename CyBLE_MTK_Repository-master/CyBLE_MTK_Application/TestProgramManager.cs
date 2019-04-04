@@ -32,7 +32,7 @@ namespace CyBLE_MTK_Application
 
         public List<MTKPSoCProgrammer> DUTProgrammers;
         public List<SerialPort> DUTSerialPorts;
-        private int NumberOfDUTs;
+        public static int NumberOfDUTs;
         public string TestFileName;
         public string FullFileName;
         public List<MTKTest> TestProgram;

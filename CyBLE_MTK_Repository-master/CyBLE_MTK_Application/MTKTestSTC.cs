@@ -5,6 +5,7 @@ using System.Text;
 using System.IO;
 using System.IO.Ports;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 
 namespace CyBLE_MTK_Application
@@ -301,19 +302,29 @@ namespace CyBLE_MTK_Application
                 RetVal = MTKTestError.MissingMTKSerialPort;
                 TestResult.Result = "ERROR";
             }
-            else if (Int32.Parse(CommandResult) >= PacketCount)
+            else if (Regex.IsMatch(CommandResult, @"^[+-]?\d*[.]?\d*$"))
             {
-                TestStatusUpdate(MTKTestMessageType.Success, "PASS");
-                this.Log.PrintLog(this, "Result: PASS", LogDetailLevel.LogRelevant);
-                RetVal = MTKTestError.NoError;
-                TestResult.Result = "PASS";
+                if (Int32.Parse(CommandResult) >= PacketCount)
+                {
+                    TestStatusUpdate(MTKTestMessageType.Success, "PASS");
+                    this.Log.PrintLog(this, "Result: PASS", LogDetailLevel.LogRelevant);
+                    RetVal = MTKTestError.NoError;
+                    TestResult.Result = "PASS";
+                }
+                else
+                {
+                    TestStatusUpdate(MTKTestMessageType.Failure, "FAIL");
+                    RetVal = MTKTestError.TestFailed;
+                    TestResult.Result = "FAIL";
+                    this.Log.PrintLog(this, $"Result: FAIL (Actual: {CommandResult} Expect: {PacketCount})" , LogDetailLevel.LogRelevant);
+                }
             }
             else
             {
                 TestStatusUpdate(MTKTestMessageType.Failure, "FAIL");
                 RetVal = MTKTestError.TestFailed;
                 TestResult.Result = "FAIL";
-                this.Log.PrintLog(this, "Result: FAIL", LogDetailLevel.LogRelevant);
+                this.Log.PrintLog(this, $"Result: FAIL ({CommandResult})", LogDetailLevel.LogRelevant);
 
             }
 

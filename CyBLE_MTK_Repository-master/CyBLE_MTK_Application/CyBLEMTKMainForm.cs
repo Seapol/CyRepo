@@ -511,19 +511,22 @@ namespace CyBLE_MTK_Application
         {
             IndexConfiguredSerialPortfor1stRow = -1;
             IndexConfiguredSerialPortforfinalRow = -1;
+            TestProgramManager.NumberOfDUTs = DUTInfoDataGridView.RowCount;
 
-            for (int i = 0; i < CyBLE_MTK_Application.Properties.Settings.Default.NumDUTs; i++)
+            SetDUTsTestFlagByCheckAvailablePort(DUTSerialPorts);
+
+            for (int i = 0; i < TestProgramManager.NumberOfDUTs; i++)
             {
-                if (DUTInfoDataGridView.Rows[i].Cells["Serial Port"].Value.ToString() != "Configure...")
+                if (DUTsTestFlag[i] == true)
                 {
                     IndexConfiguredSerialPortfor1stRow = i;
                     break;
                 }
             }
 
-            for (int i = ((int)CyBLE_MTK_Application.Properties.Settings.Default.NumDUTs - 1); i >= 0; i--)
+            for (int i = ((int)TestProgramManager.NumberOfDUTs-1); i >= 0; --i)
             {
-                if (DUTInfoDataGridView.Rows[i].Cells["Serial Port"].Value.ToString() != "Configure...")
+                if (DUTsTestFlag[i] == true)
                 {
                     IndexConfiguredSerialPortforfinalRow = i;
                     break;
@@ -532,7 +535,28 @@ namespace CyBLE_MTK_Application
 
         }
 
-
+        private void SetDUTsTestFlagByCheckAvailablePort(List<SerialPort> dUTSerialPorts)
+        {
+            for (int i = 0; i < TestProgramManager.NumberOfDUTs; i++)
+            {
+                try
+                {
+                    
+                    if (dUTSerialPorts[i].IsOpen && CyBLEMTKRobotServer.gServer.PendingDUTInfos[i + 1].TestFlag)
+                    {
+                        DUTsTestFlag[i] = true;
+                    }
+                    else
+                    {
+                        dUTSerialPorts[i].Open();
+                    }
+                }
+                catch (Exception)
+                {
+                    DUTsTestFlag[i] = false;
+                }
+            }
+        }
 
         private void LogResultsTimerSetup()
         {
@@ -2556,8 +2580,17 @@ namespace CyBLE_MTK_Application
                 {
                     if (MTKTestProgram.CurrentDUT == (DUTInfoDataGridView.RowCount-1))
                     {
-                        this.Invoke(new MethodInvoker(() => TestStatusLabel.ForeColor = Color.Green));
-                        this.Invoke(new MethodInvoker(() => TestStatusLabel.Text = "PASS"));
+                        for (int i = 0; i < DUTInfoDataGridView.RowCount; i++)
+                        {
+                            if (ProgramStatus[i] == MTKTestError.NoError)
+                            {
+                                this.Invoke(new MethodInvoker(() => TestStatusLabel.ForeColor = Color.Green));
+                                this.Invoke(new MethodInvoker(() => TestStatusLabel.Text = "PASS"));
+
+                                break;
+                            }
+                        }
+
                     }
 
                 }
@@ -2592,9 +2625,18 @@ namespace CyBLE_MTK_Application
             {
                 if (MTKTestProgram.CurrentDUT == (DUTInfoDataGridView.RowCount - 1))
                 {
-                    this.Invoke(new MethodInvoker(() => TestStatusLabel.ForeColor = Color.Green));
-                    this.Invoke(new MethodInvoker(() => TestStatusLabel.Text = "PASS"));
+                    for (int i = 0; i < DUTInfoDataGridView.RowCount; i++)
+                    {
+                        if (ProgramStatus[i] == MTKTestError.NoError)
+                        {
+                            this.Invoke(new MethodInvoker(() => TestStatusLabel.ForeColor = Color.Green));
+                            this.Invoke(new MethodInvoker(() => TestStatusLabel.Text = "PASS"));
+
+                            break;
+                        }
+                    }
                 }
+
 
 
                 if (ProgramStatus[MTKTestProgram.CurrentDUT] == MTKTestError.NoError)
@@ -2781,6 +2823,7 @@ namespace CyBLE_MTK_Application
 
         private void PostIgnoreDUT()
         {
+            ProgramStatus[MTKTestProgram.CurrentDUT] = MTKTestError.IgnoringDUT;
             DUTInfoDataGridView.Rows[MTKTestProgram.CurrentDUT].Cells["Status"].Style = new DataGridViewCellStyle { ForeColor = Color.Black, BackColor = Color.LightGray };
             DUTInfoDataGridView.Rows[MTKTestProgram.CurrentDUT].Cells["Status"].Value = "IGNORE";
         }
@@ -2827,11 +2870,13 @@ namespace CyBLE_MTK_Application
 
         private void TestRunStopButton_Click(object sender, EventArgs e)
         {
-            if ((!CyBLE_MTK.DUTsTestFlag[0]) || DUTInfoDataGridView.Rows[0].Cells["Serial Port"].Value.ToString() == "Configure...")
-            {
-                MessageBox.Show("警告：DUT#1 不能被屏蔽，请修复完成后，再使用！测试将被终止！ \n\nCyBLE_MTK.DUTsTestFlag[0]: " + CyBLE_MTK.DUTsTestFlag[0].ToString() + "\n\nDUTSerialPorts[0].PortName: " + DUTInfoDataGridView.Rows[0].Cells["Serial Port"].Value.ToString());
-                return;
-            }
+            //if ((!CyBLE_MTK.DUTsTestFlag[0]) || DUTInfoDataGridView.Rows[0].Cells["Serial Port"].Value.ToString() == "Configure...")
+            //{
+            //    MessageBox.Show("警告：DUT#1 不能被屏蔽，请修复完成后，再使用！测试将被终止！ \n\nCyBLE_MTK.DUTsTestFlag[0]: " + CyBLE_MTK.DUTsTestFlag[0].ToString() + "\n\nDUTSerialPorts[0].PortName: " + DUTInfoDataGridView.Rows[0].Cells["Serial Port"].Value.ToString());
+            //    return;
+            //}
+
+            //SetRowCntOfDUTDatainfoGridViewByDUTTestFlags(DUTsTestFlag);
 
             RedirectTheFirstFinalRowIndexfromDUTInfoDataGridView();
 
@@ -3173,6 +3218,20 @@ namespace CyBLE_MTK_Application
                 PreferencesMenuItem.Enabled = false;
                 MTKTestProgram.ContinueTestProgram();
                 BackupAndApplyAppStatus("Running test program...");
+            }
+        }
+
+        private void SetRowCntOfDUTDatainfoGridViewByDUTTestFlags(bool[] dUTsTestFlag)
+        {
+            
+
+            for (int i = 1; i < DUTInfoDataGridView.RowCount; i++)
+            {
+                if (DUTsTestFlag[DUTInfoDataGridView.RowCount - i])
+                {
+                    TestProgramManager.NumberOfDUTs = (DUTInfoDataGridView.RowCount - i);
+                    break;
+                }
             }
         }
 
