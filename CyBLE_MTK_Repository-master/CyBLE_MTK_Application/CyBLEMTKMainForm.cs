@@ -541,19 +541,36 @@ namespace CyBLE_MTK_Application
             {
                 try
                 {
-                    
-                    if (dUTSerialPorts[i].IsOpen && CyBLEMTKRobotServer.gServer.PendingDUTInfos[i + 1].TestFlag)
+                    if (CyBLEMTKRobotServer.gServer != null)
                     {
-                        DUTsTestFlag[i] = true;
+                        if (dUTSerialPorts[i].IsOpen && CyBLEMTKRobotServer.gServer.PendingDUTInfos[i + 1].TestFlag)
+                        {
+                            DUTsTestFlag[i] = true;
+                        }
+                        else
+                        {
+                            dUTSerialPorts[i].Open();
+                        }
                     }
                     else
                     {
-                        dUTSerialPorts[i].Open();
+                        if (dUTSerialPorts[i].IsOpen)
+                        {
+                            DUTsTestFlag[i] = true;
+                        }
+                        else
+                        {
+                            dUTSerialPorts[i].Open();
+                        }
                     }
+
+                    
+
                 }
                 catch (Exception)
                 {
                     DUTsTestFlag[i] = false;
+                    Logger.PrintLog(this,$"The Serial Port of DUT#{i+1} is not opened. The test result of DUT#{i + 1} will be Ignored.", LogDetailLevel.LogRelevant);
                 }
             }
         }
@@ -2319,7 +2336,12 @@ namespace CyBLE_MTK_Application
                         bool SwitchResult = ((MTKTestAnritsu)MTKTestProgram.TestProgram[MTKTestProgram.CurrentTestIndex]).SwitchToMTK();
                     }
                 }
+
+
             }
+
+
+
         }
 
         public void CyBLE_MTK_OnNumTestStatusUpdate(int index, string Message)
@@ -3193,9 +3215,7 @@ namespace CyBLE_MTK_Application
                         TestThread.Start();
                     }
 
-
-
-
+                    
 
 
                 }
@@ -3219,6 +3239,9 @@ namespace CyBLE_MTK_Application
                 MTKTestProgram.ContinueTestProgram();
                 BackupAndApplyAppStatus("Running test program...");
             }
+
+            //this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.ClearSelection()));
+            //this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[0].Selected = true));
         }
 
         private void SetRowCntOfDUTDatainfoGridViewByDUTTestFlags(bool[] dUTsTestFlag)
@@ -4717,7 +4740,11 @@ namespace CyBLE_MTK_Application
             DUTTestResults.Clear();
             errcodes.Clear();
 
-
+            if (MTKTestProgram.CurrentDUT == (DUTInfoDataGridView.Rows.Count - 1) && (MTKTestProgram.CurrentTestIndex == (TestProgramGridView.Rows.Count - 1)))
+            {
+                this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.ClearSelection()));
+                this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[0].Selected = true));
+            }
 
             if (errcodes.Count > 0)
             {

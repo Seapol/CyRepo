@@ -2,6 +2,7 @@ Release notes:
 2019-04-04 (v4.3.2)
 1.Fix the bug that ProgAllatBegin must run at DUT#1 thread
 2.Fix the bug that ProgAllatEnd must run at final row of DUTDataGridView thread
+3.Select DUTInfoDataGridView.Rows[0] when all tests finished
 
 2019-04-01 (v4.3.1)
 1.Change MTKRecord.Test_Code from int to string
