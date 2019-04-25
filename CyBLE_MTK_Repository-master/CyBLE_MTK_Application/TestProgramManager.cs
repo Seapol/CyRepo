@@ -719,13 +719,21 @@ namespace CyBLE_MTK_Application
             {
 
 
-                if (DUTSerialPorts[_CurrentDUT].IsOpen)
+                if (DUTSerialPorts[_CurrentDUT].IsOpen && CyBLE_MTK.DUTSerialPortsConfigured[CurrentDUT] == true)
                 {
                     RetVal = TestProgram[TestIndex].RunTest();
                 }
                 else
                 {
-                    RetVal = MTKTestError.IgnoringDUT;
+                    if (CurrentMTKTestType == MTKTestType.MTKTestProgramAll)
+                    {
+                        RetVal = TestProgram[TestIndex].RunTest();
+                    }
+                    else
+                    {
+                        RetVal = MTKTestError.IgnoringDUT;
+                    }
+                    
                 }
             }
 
@@ -774,9 +782,11 @@ namespace CyBLE_MTK_Application
 
                 TestStart = true;
 
-                MTKTestError TestResult = RunTest(i);
+                MTKTestError TestResult = MTKTestError.Pending;
 
 
+
+                TestResult = RunTest(i);
 
 
                 if (TestResult != MTKTestError.NoError)

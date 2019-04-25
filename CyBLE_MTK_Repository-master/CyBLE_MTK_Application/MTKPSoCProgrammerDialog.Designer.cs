@@ -180,6 +180,7 @@
             this.ProgrammerPortsComboBox.Name = "ProgrammerPortsComboBox";
             this.ProgrammerPortsComboBox.Size = new System.Drawing.Size(176, 21);
             this.ProgrammerPortsComboBox.TabIndex = 20;
+            this.ProgrammerPortsComboBox.DropDown += new System.EventHandler(this.DropDownButtonClick);
             this.ProgrammerPortsComboBox.SelectedIndexChanged += new System.EventHandler(this.ProgrammerPortsComboBox_SelectedIndexChanged);
             // 
             // label1
@@ -193,21 +194,22 @@
             // 
             // CloseButton
             // 
-            this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.CloseButton.Location = new System.Drawing.Point(181, 287);
+            this.CloseButton.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.CloseButton.Location = new System.Drawing.Point(205, 287);
             this.CloseButton.Name = "CloseButton";
             this.CloseButton.Size = new System.Drawing.Size(75, 23);
             this.CloseButton.TabIndex = 30;
-            this.CloseButton.Text = "&Cancel";
+            this.CloseButton.Text = "&Close";
             this.CloseButton.UseVisualStyleBackColor = true;
+            this.CloseButton.Click += new System.EventHandler(this.CloseButton_Click);
             // 
             // OKButton
             // 
-            this.OKButton.Location = new System.Drawing.Point(100, 287);
+            this.OKButton.Location = new System.Drawing.Point(95, 287);
             this.OKButton.Name = "OKButton";
             this.OKButton.Size = new System.Drawing.Size(75, 23);
             this.OKButton.TabIndex = 29;
-            this.OKButton.Text = "&OK";
+            this.OKButton.Text = "&Connect";
             this.OKButton.UseVisualStyleBackColor = true;
             this.OKButton.Click += new System.EventHandler(this.OKButton_Click);
             // 

@@ -68,6 +68,17 @@ namespace CyBLE_MTK_Application
                 ClockComboBox.Enabled = false;
             }
 
+            if (ProgrammerPortsComboBox.Text != "" || ProgrammerPortsComboBox.Text != "Configure...")
+            {
+                this.Invoke(new MethodInvoker(() => OKButton.Text = "Disconnect"));
+                this.Invoke(new MethodInvoker(() => OKButton.ForeColor = Color.Gray));
+            }
+            else
+            {
+                this.Invoke(new MethodInvoker(() => OKButton.Text = "Connect"));
+                this.Invoke(new MethodInvoker(() => OKButton.ForeColor = Color.Black));
+            }
+
             base.OnLoad(e);
         }
 
@@ -169,6 +180,11 @@ namespace CyBLE_MTK_Application
             this.ProgrammerPortsComboBox.DataSource = PortList;
             AddProgrammers();
             ProgrammerPortRefreshButton.Enabled = true;
+
+            this.Invoke(new MethodInvoker(() => OKButton.Text = "Connect"));
+            this.Invoke(new MethodInvoker(() => OKButton.ForeColor = Color.Black));
+            this.Invoke(new MethodInvoker(() => ProgrammerPortsComboBox.Text = ""));
+            this.Invoke(new MethodInvoker(() => Programmer.SelectedProgrammer = ""));
         }
 
         private void ProgrammerPortsComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -190,6 +206,8 @@ namespace CyBLE_MTK_Application
                 ClockComboBox.Enabled = true;
             }
             UpdateControlsWithSelectedProgrammer();
+
+
         }
 
         public string AcquireModeFromComboBox()
@@ -254,27 +272,47 @@ namespace CyBLE_MTK_Application
             }
         }
 
+
         private void OKButton_Click(object sender, EventArgs e)
         {
-            Programmer.SelectedProgrammer = ProgrammerPortsComboBox.Text;
-            Programmer.SelectedVoltageSetting = VoltageComboBox.Text;
-            Programmer.SelectedAquireMode = AcquireModeFromComboBox();
-            Programmer.SelectedConnectorType = ConnectorFromComboBox();
-            Programmer.SelectedHEXFilePath = HexFilePathTextBox.Text;
-            Programmer.SelectedClock = ClockComboBox.Text;
-            Programmer.ValidateAfterProgramming = ValidateCheckBox.Checked;
-            Programmer.GlobalProgrammerSelected = globalProgCheckBox.Checked; 
-            if (ProgramRadioButton.Checked)
+            if (OKButton.Text == "Connect")
             {
-                Programmer.SelectedAction = PSoCProgrammerAction.Program;
-            }
-            else if (FlashEraseRadioButton.Checked)
-            {
-                Programmer.SelectedAction = PSoCProgrammerAction.Erase;
-            }
 
-            this.DialogResult = DialogResult.OK;
-            this.Close();
+                this.Invoke(new MethodInvoker(() => OKButton.Text = "Disconnect"));
+                this.Invoke(new MethodInvoker(() => OKButton.ForeColor = Color.Gray));
+
+
+                Programmer.SelectedProgrammer = ProgrammerPortsComboBox.Text;
+                Programmer.SelectedVoltageSetting = VoltageComboBox.Text;
+                Programmer.SelectedAquireMode = AcquireModeFromComboBox();
+                Programmer.SelectedConnectorType = ConnectorFromComboBox();
+                Programmer.SelectedHEXFilePath = HexFilePathTextBox.Text;
+                Programmer.SelectedClock = ClockComboBox.Text;
+                Programmer.ValidateAfterProgramming = ValidateCheckBox.Checked;
+                Programmer.GlobalProgrammerSelected = globalProgCheckBox.Checked;
+                if (ProgramRadioButton.Checked)
+                {
+                    Programmer.SelectedAction = PSoCProgrammerAction.Program;
+                }
+                else if (FlashEraseRadioButton.Checked)
+                {
+                    Programmer.SelectedAction = PSoCProgrammerAction.Erase;
+                }
+
+                this.DialogResult = DialogResult.OK;
+                this.Close();
+
+            }
+            else
+            {
+
+                this.Invoke(new MethodInvoker(() => OKButton.Text = "Connect"));
+                this.Invoke(new MethodInvoker(() => OKButton.ForeColor = Color.Black));
+                this.Invoke(new MethodInvoker(() => ProgrammerPortsComboBox.Text = ""));
+                this.Invoke(new MethodInvoker(() => Programmer.SelectedProgrammer = ""));
+
+
+            }
         }
 
         public void SetupForBDA()
@@ -331,6 +369,19 @@ namespace CyBLE_MTK_Application
             {
                 cusProgGroupBox.Enabled = true;
             }
+        }
+
+        private void CloseButton_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void DropDownButtonClick(object sender, EventArgs e)
+        {
+            this.Invoke(new MethodInvoker(() => OKButton.Text = "Connect"));
+            this.Invoke(new MethodInvoker(() => OKButton.ForeColor = Color.Black));
+            this.Invoke(new MethodInvoker(() => ProgrammerPortsComboBox.Text = ""));
+            this.Invoke(new MethodInvoker(() => Programmer.SelectedProgrammer = ""));
         }
     }
 }

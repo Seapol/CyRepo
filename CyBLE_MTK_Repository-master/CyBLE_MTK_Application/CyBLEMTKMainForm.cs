@@ -74,6 +74,8 @@ namespace CyBLE_MTK_Application
 
         public static bool[] DUTsTestFlag = {true,true,true,true, true, true, true, true };
 
+        public static bool[] DUTSerialPortsConfigured = { true, true, true, true, true, true, true, true };
+
         public static string LogWriteLine = "";
 
 
@@ -195,6 +197,21 @@ namespace CyBLE_MTK_Application
             HostStatus.BackColor = Color.Red;
             //MTKSerialPortDialog.OnDUTConnectionStatusChange += new SerialPortSettingsDialog.ConnectionEventHandler(MTKSerialPortDialog_OnDUTConnectionStatusChange);
             MTKSerialPortDialog.OnHostConnectionStatusChange += new SerialPortSettingsDialog.ConnectionEventHandler(MTKSerialPortDialog_OnHostConnectionStatusChange);
+            MTKSerialPortDialog.DeviceSerialPort.PortName = CyBLE_MTK_Application.Properties.Settings.Default.MTKHostSerialPort;
+            try
+            {
+                MTKSerialPortDialog.DeviceSerialPort.Open();
+                HostStatus.BackColor = Color.Green;
+                SplashScreen.LoadMessage = $"Setting up MTK serial port {MTKSerialPortDialog.DeviceSerialPort.PortName} successfully...";
+                Logger.PrintLog(this, $"Setting up MTK serial port {MTKSerialPortDialog.DeviceSerialPort.PortName} successfully...", LogDetailLevel.LogRelevant);
+            }
+            catch (Exception)
+            {
+
+                SplashScreen.LoadMessage = $"Setting up MTK serial port {MTKSerialPortDialog.DeviceSerialPort.PortName} failure...";
+                Logger.PrintLog(this, $"Setting up MTK serial port {MTKSerialPortDialog.DeviceSerialPort.PortName} failure... " +
+                    $"Hint: it is predefined in the AppConfig file, please check it in the device manager and manually connect it. ", LogDetailLevel.LogRelevant);
+            }
             SplashScreen.LoadStatus += 8;
 
             SplashScreen.LoadMessage = "Setting up DUT serial port dialog...";
@@ -533,6 +550,8 @@ namespace CyBLE_MTK_Application
                 }
             }
 
+
+
         }
 
         private void SetDUTsTestFlagByCheckAvailablePort(List<SerialPort> dUTSerialPorts)
@@ -541,7 +560,12 @@ namespace CyBLE_MTK_Application
             {
                 try
                 {
-                    if (CyBLEMTKRobotServer.gServer != null)
+                    if (DUTInfoDataGridView.Rows[i].Cells["Serial Port"].Value.ToString() == "Configure...")
+                    {
+                        DUTsTestFlag[i] = false;
+                        
+                    }
+                    else if (CyBLEMTKRobotServer.gServer != null)
                     {
                         if (dUTSerialPorts[i].IsOpen && CyBLEMTKRobotServer.gServer.PendingDUTInfos[i + 1].TestFlag)
                         {
@@ -550,6 +574,8 @@ namespace CyBLE_MTK_Application
                         else
                         {
                             dUTSerialPorts[i].Open();
+                            DUTsTestFlag[i] = true;
+                            Logger.PrintLog(this, $"The Serial Port of DUT#{i + 1} is opened successfully.", LogDetailLevel.LogRelevant);
                         }
                     }
                     else
@@ -561,6 +587,8 @@ namespace CyBLE_MTK_Application
                         else
                         {
                             dUTSerialPorts[i].Open();
+                            DUTsTestFlag[i] = true;
+                            Logger.PrintLog(this, $"The Serial Port of DUT#{i + 1} is opened successfully.", LogDetailLevel.LogRelevant);
                         }
                     }
 
@@ -2105,7 +2133,7 @@ namespace CyBLE_MTK_Application
         private void CyBLE_MTK_OnProgComplete(List<MTKTestError> err)
         {
             ProgAllErr = err;
-            SetProgAllErr(ProgAllErr);
+            //SetProgAllErr(ProgAllErr);
         }
 
         private void MTKTestProgram_OnNextTest(int CurrentTest)
@@ -2513,27 +2541,39 @@ namespace CyBLE_MTK_Application
             {
                 if ((MTKTestProgram.TestProgram[MTKTestProgram.CurrentTestIndex].ToString() != "MTKTestProgramAll") && MTKTestProgram.TestRunning)
                 {
-                    ProgramStatus[MTKTestProgram.CurrentDUT] = MTKTestError.TestFailed;
+                    if (DUTsTestFlag[MTKTestProgram.CurrentDUT])
+                    {
+                        ProgramStatus[MTKTestProgram.CurrentDUT] = MTKTestError.TestFailed;
+                    }
+                    else
+                    {
+                        ProgramStatus[MTKTestProgram.CurrentDUT] = MTKTestError.IgnoringDUT;
+                    }
                 }
 
                 for (int i = 0; i < ProgAllErr.Count; i++)
                 {
-                    if ((ProgAllErr[i] == MTKTestError.TestFailed || ProgAllErr[i] == MTKTestError.NotAllDevicesProgrammed)&&DUTsTestFlag[i])
+                    if (ProgAllErr[i] != MTKTestError.NoError)
                     {
-                        ProgramStatus[i] = MTKTestError.TestFailed;
-                        this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[i].Cells["Status"].Style = new DataGridViewCellStyle { ForeColor = Color.Red, BackColor = Color.Pink }));
-                        this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[i].Cells["Status"].Value = "FAIL"));
+                        if (!DUTsTestFlag[i]||ProgAllErr[i] == MTKTestError.IgnoringDUT || ProgAllErr[i] == MTKTestError.ProgrammerNotConfigured)
+                        {
+                            ProgramStatus[i] = MTKTestError.IgnoringDUT;
+                            this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[i].Cells["Status"].Style = new DataGridViewCellStyle { ForeColor = Color.Gray, BackColor = Color.LightGray }));
+                            this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[i].Cells["Status"].Value = "IGNORE"));
+                        }
+                        else
+                        {
+                            ProgramStatus[i] = MTKTestError.TestFailed;
+                            this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[i].Cells["Status"].Style = new DataGridViewCellStyle { ForeColor = Color.Red, BackColor = Color.Pink }));
+                            this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[i].Cells["Status"].Value = "FAIL"));
+                        }
+
                     }
 
-                    if (ProgAllErr[i] == MTKTestError.IgnoringDUT || ProgAllErr[i] == MTKTestError.ProgrammerNotConfigured)
-                    {
-                        ProgramStatus[i] = MTKTestError.IgnoringDUT;
-                        this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[i].Cells["Status"].Style = new DataGridViewCellStyle { ForeColor = Color.Gray, BackColor = Color.LightGray }));
-                        this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[i].Cells["Status"].Value = "IGNORE"));
-                    }
+
                 }
 
-                SetProgAllErr(ProgramStatus);
+                //SetProgAllErr(ProgramStatus);
             }
             else
             {
@@ -2563,7 +2603,7 @@ namespace CyBLE_MTK_Application
         {
             if (IsProgAllPresent())
             {
-                SetProgAllErr(ProgramStatus);
+                //SetProgAllErr(ProgramStatus);
                 bool ProgErrPresent = false;
 
                 for (int i = 0; i < ProgAllErr.Count; i++)
@@ -2900,7 +2940,12 @@ namespace CyBLE_MTK_Application
 
             //SetRowCntOfDUTDatainfoGridViewByDUTTestFlags(DUTsTestFlag);
 
+
+
             RedirectTheFirstFinalRowIndexfromDUTInfoDataGridView();
+
+            IgnoringDUTsocketByDUTSerialPort();
+
 
             if (IndexConfiguredSerialPortfor1stRow < 0)
             {
@@ -2993,6 +3038,7 @@ namespace CyBLE_MTK_Application
                 try
                 {
                     DUTInfoDataGridView.Refresh();
+
                 }
                 catch (Exception)
                 {
@@ -3240,8 +3286,19 @@ namespace CyBLE_MTK_Application
                 BackupAndApplyAppStatus("Running test program...");
             }
 
-            //this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.ClearSelection()));
-            //this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[0].Selected = true));
+
+        }
+
+        private void IgnoringDUTsocketByDUTSerialPort()
+        {
+            for (int i = 0; i < DUTInfoDataGridView.RowCount; i++)
+            {
+                if (DUTInfoDataGridView.Rows[i].Cells["Serial Port"].Value.ToString() == "Configure...")
+                {
+                    DUTSerialPortsConfigured[i] = false;
+                }
+                
+            }
         }
 
         private void SetRowCntOfDUTDatainfoGridViewByDUTTestFlags(bool[] dUTsTestFlag)
@@ -4742,8 +4799,16 @@ namespace CyBLE_MTK_Application
 
             if (MTKTestProgram.CurrentDUT == (DUTInfoDataGridView.Rows.Count - 1) && (MTKTestProgram.CurrentTestIndex == (TestProgramGridView.Rows.Count - 1)))
             {
-                this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.ClearSelection()));
-                this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[0].Selected = true));
+                //this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.ClearSelection()));
+                //this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Focus()));
+                //this.Invoke(new MethodInvoker(() => DUTInfoDataGridView.Rows[0].Cells["Unique ID"].Selected = true));
+
+                //Auto focus on the first SN cell to wait for input after testing.
+                DUTInfoDataGridView.ClearSelection();
+                DUTInfoDataGridView.CurrentCell = DUTInfoDataGridView.Rows[0].Cells["Unique ID"];
+                DUTInfoDataGridView.CurrentCell.Selected = true;
+                DUTInfoDataGridView.Focus();
+
             }
 
             if (errcodes.Count > 0)

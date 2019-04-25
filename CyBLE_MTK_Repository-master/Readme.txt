@@ -1,4 +1,13 @@
 Release notes:
+2019-04-25 (v4.3.4)
+1.Change the buttons of MTKPSoCProgrammerDialog to "Connect/Disconnect" and "Close" so as to allow user to disconnect the specific PSoCProgrammer when he wants to ignore the programming.
+2.fix the focus problem of Select DUTInfoDataGridView.Rows[0] when all tests finished
+3.fix the problem of wrongly test result and error code when ignoring 1st/final test socket
+
+2019-04-19 (v4.3.3)
+1.Initially use CyBLE_MTK_Application.Properties.Settings.Default.MTKHostSerialPort as MTKSerialPortDialog.DeviceSerialPort.PortName and try to open it during App Starting.
+
+
 2019-04-04 (v4.3.2)
 1.Fix the bug that ProgAllatBegin must run at DUT#1 thread
 2.Fix the bug that ProgAllatEnd must run at final row of DUTDataGridView thread
